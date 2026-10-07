@@ -1,0 +1,314 @@
+ 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #000;
+      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* ---------- NAVBAR ---------- */
+
+    .navbar {
+      height: 64px;
+      border-bottom: 4px solid #ff00d4;
+      display: flex;
+      align-items: center;
+      padding: 0 70px;
+      color: white;
+    }
+
+    .logo {
+      color: #f000d8;
+      font-size: 17px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 42px;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-links a.active {
+      color: #00d99b;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 14px;
+      margin-left: 55px;
+    }
+
+    .nav-btn {
+      height: 38px;
+      padding: 0 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .nav-signin {
+      background: transparent;
+      color: #00e3ad;
+      border: 2px solid #00e3ad;
+    }
+
+    .nav-trial {
+      background: #00e3ad;
+      color: #111;
+      border: 2px solid #00e3ad;
+    }
+
+    /* ---------- PAGE ---------- */
+
+    .page {
+      display: flex;
+      justify-content: center;
+      padding-top: 120px;
+    }
+
+    /* ---------- LOGIN CARD ---------- */
+
+    .login-card {
+      width: 500px;
+      min-height: 520px;
+      background: #fff;
+      border: 5px solid #ff00d4;
+      border-radius: 28px;
+      padding: 44px 38px 34px;
+    }
+
+    .login-card h1 {
+      text-align: center;
+      font-size: 37px;
+      line-height: 1;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .signup-text {
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 38px;
+    }
+
+    .signup-text a {
+      color: #ff38cd;
+      font-weight: 600;
+    }
+
+    /* ---------- FORM ---------- */
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 9px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .form-group input {
+      display: block;
+      width: 100%;
+      height: 50px;
+      border: 2px solid #ff65df;
+      border-radius: 11px;
+      outline: none;
+      padding: 0 15px;
+      font-size: 16px;
+      background: #fff;
+    }
+
+    .form-group input:focus {
+      border-color: #ff00d4;
+      box-shadow: 0 0 0 2px rgba(255, 0, 212, 0.1);
+    }
+
+    .password-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .password-header label {
+      margin-bottom: 9px;
+    }
+
+    .hide-password {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      margin-bottom: 9px;
+    }
+
+    .eye {
+      width: 18px;
+      height: 13px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .eye::before {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 9px;
+      border: 2px solid #222;
+      border-radius: 50% / 60%;
+      top: 1px;
+      left: 1px;
+    }
+
+    .eye::after {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: #222;
+      transform: rotate(45deg);
+      left: 8px;
+      top: -4px;
+    }
+
+    .forgot {
+      display: block;
+      width: max-content;
+      margin: -2px 0 17px auto;
+      color: #ff3939;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .submit-btn {
+      width: 100%;
+      height: 50px;
+      border: 0;
+      border-radius: 8px;
+      background: #ffe500;
+      color: #171717;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: #f2d900;
+    }
+
+    /* ---------- SOCIAL BUTTONS ---------- */
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .social-btn {
+      height: 52px;
+      background: #fff;
+      border: 2px solid #ff65df;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .social-icon {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 19px;
+    }
+
+    .google {
+      color: #4285f4;
+      font-family: Arial, sans-serif;
+    }
+
+    .apple {
+      color: #111;
+      font-size: 24px;
+    }
+
+    .facebook {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #1877f2;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 19px;
+      line-height: 27px;
+      text-align: center;
+    }
+
+    .twitter {
+      color: #1da1f2;
+      font-size: 23px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 800px) {
+      .navbar {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-actions {
+        margin-left: auto;
+      }
+
+      .page {
+        padding: 70px 20px 30px;
+      }
+
+      .login-card {
+        width: min(100%, 500px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-trial {
+        display: none;
+      }
+
+      .login-card {
+        padding: 35px 25px 28px;
+      }
+
+      .social-buttons {
+        gap: 7px;
+      }
+    }
+  
