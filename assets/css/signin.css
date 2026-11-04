@@ -78,6 +78,11 @@
       justify-content: center;
       text-decoration: none;
     }
+    .nav-btn:hover {
+     text-decoration: none;
+     color: #ffffff;
+     background-color: #f000d8;
+    }
 
     .nav-signin {
       background: transparent;
