@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class ="fullpage" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Music Sign In!</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/signin.css">
+  
+</head>
+
+<body>
+  
+
+    <header class="navbar">
+      <div class="logo">Music Website</div>
+
+    <nav class="nav-links">
+      <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Who We Are</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Shopping Cart</a></li>
+      </ul>
+    </nav>
+    
+
+    <div class="nav-actions">
+      <a href="signIn.html" class="nav-btn nav-signin">Sign in</a>
+      <a href="signup.html" class="nav-btn nav-trial">Sign up</a>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <section class="login-card">
+
+      <h1>Sign in</h1>
+
+      <p class="signup-text">
+        New to Music Website?
+        <a href="signup.html">Sign up</a> <!-- sign up-->
+      </p>
+
+      <form>
+
+           <div id="emailGroup" class="form-group">
+					<label for="email">Email</label>
+					<input type="text" class="form-control"
+						   id="email" placeholder="Email Address"  name="email">
+					<span id="emailFeedback" class="help-block"></span>
+				</div>
+
+				<div id="passGroup" class="form-group">
+					<label for="password">Password</label>
+					<input type="password" class="form-control"
+						   id="password" placeholder="Password" name="password">
+					<span id="passFeedback" class="help-block"></span>
+				</div>
+
+     
+        <a class="forgot" href="#">Forget password?</a>
+
+        <button class="submit-btn" type="submit">
+          Sign in
+        </button>
+
+      </form>
+    </section>
+
+  </main>
+</body>
+</html>
+
+<script src="assets/js/signin.js"></script>
