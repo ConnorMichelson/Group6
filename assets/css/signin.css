@@ -1,4 +1,4 @@
- 
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -7,20 +7,26 @@
 
     body {
       min-height: 100vh;
-      background: #000;
+      background-color: #000;
       color: #222;
       font-family: Arial, Helvetica, sans-serif;
     }
 
     /* ---------- NAVBAR ---------- */
+  
+
 
     .navbar {
-      height: 64px;
+      height: 60px;
       border-bottom: 4px solid #ff00d4;
       display: flex;
       align-items: center;
       padding: 0 70px;
+      margin-top: 0;
+      margin-bottom: 0;
       color: white;
+      background-color: #000;
+      
     }
 
     .logo {
@@ -35,10 +41,11 @@
       align-items: center;
       gap: 42px;
       margin-left: auto;
+      padding-top: 10px;
     }
 
     .nav-links a {
-      color: #ddd;
+      color: #ffffff;
       text-decoration: none;
       font-size: 14px;
     }
@@ -46,6 +53,11 @@
     .nav-links a.active {
       color: #00d99b;
     }
+    .nav-links .nav > li > a:hover {
+    background-color: #f000d8;
+    color: #ffffff;
+    font-weight: bold;
+}
 
     .nav-actions {
       display: flex;
@@ -59,18 +71,26 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
+     
+      
+       display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
     }
 
     .nav-signin {
       background: transparent;
       color: #00e3ad;
       border: 2px solid #00e3ad;
+      text-decoration: none;
     }
 
     .nav-trial {
       background: #00e3ad;
       color: #111;
-      border: 2px solid #00e3ad;
+      border: 2px solid #ffffff;
+      text-decoration: none;
     }
 
     /* ---------- PAGE ---------- */
@@ -137,7 +157,7 @@
       outline: none;
       padding: 0 15px;
       font-size: 16px;
-      background: #fff;
+      background: #faf9f9;
     }
 
     .form-group input:focus {
