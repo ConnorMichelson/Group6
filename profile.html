@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Profile | Neon FM</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="assets/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="oneMusic-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="oneMusicNav">
+
+                        <!-- Nav brand -->
+                        <a href="index.html" class="nav-brand"><img src="assets/img/core-img/neon-fm.png" alt="Neon FM"></a>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="albums-store.html">Albums</a></li>
+                                    <li><a href="#">Pages</a>
+                                        <ul class="dropdown">
+                                            <li><a href="index.html">Home</a></li>
+                                            <li><a href="albums-store.html">Albums</a></li>
+                                            <li><a href="event.html">Events</a></li>
+                                            <li><a href="blog.html">News</a></li>
+                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="elements.html">Elements</a></li>
+                                            <li><a href="login.html">Login</a></li>
+                                            <li><a href="#">Dropdown</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="event.html">Events</a></li>
+                                    <li><a href="blog.html">News</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+
+                                <!-- Login/Register & Cart Button -->
+                                <div class="login-register-cart-button d-flex align-items-center">
+                                    <!-- Login/Register -->
+                                    <div class="login-register-btn mr-50">
+                                        <a href="login.html" id="loginBtn">Login / Register</a>
+                                    </div>
+
+                                    <!-- Cart Button -->
+                                    <div class="cart-btn">
+                                        <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nav End -->
+
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb-area bg-img"></div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <main class="login-area section-padding-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="login-content">
+                        <h1 class="h3 text-center">Profile</h1>
+                        <div class="login-form">
+                            <form id="profile-form" hidden>
+                                <div class="form-group">
+                                    <label for="profile-first-name">First name</label>
+                                    <input id="profile-first-name" class="form-control" autocomplete="given-name" maxlength="100" pattern="[\p{L}\p{M}_\-]+" title="Use letters, hyphens, and underscores only." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-last-name">Last name</label>
+                                    <input id="profile-last-name" class="form-control" autocomplete="family-name" maxlength="100" pattern="[\p{L}\p{M}_\-]+" title="Use letters, hyphens, and underscores only." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-email">Email address</label>
+                                    <input type="email" id="profile-email" class="form-control bg-light" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-password">Password</label>
+                                    <div class="position-relative password-field">
+                                        <input type="password" id="profile-password" class="form-control bg-light" value="********" autocomplete="off" disabled>
+                                        <button type="button" class="position-absolute password-toggle" aria-label="Password visibility unavailable" aria-controls="profile-password" disabled>
+                                            <i class="bi bi-eye-slash" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <fieldset>
+                                    <legend class="h5">Address (optional)</legend>
+                                    <div class="form-group">
+                                        <label for="profile-address-line">Address line</label>
+                                        <input id="profile-address-line" class="form-control" autocomplete="address-line1" maxlength="255" aria-describedby="profile-address-line-error">
+                                        <small id="profile-address-line-error" class="form-text text-danger" aria-live="polite"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-city">City</label>
+                                        <input id="profile-city" class="form-control" autocomplete="address-level2" maxlength="100" aria-describedby="profile-city-error">
+                                        <small id="profile-city-error" class="form-text text-danger" aria-live="polite"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-state">State</label>
+                                        <select id="profile-state" class="form-control" autocomplete="address-level1" aria-describedby="profile-state-error">
+                                            <option value="">Select a state</option>
+                                            <option value="AZ">AZ</option>
+                                            <option value="CA">CA</option>
+                                            <option value="CO">CO</option>
+                                            <option value="FL">FL</option>
+                                            <option value="GA">GA</option>
+                                            <option value="LA">LA</option>
+                                            <option value="NM">NM</option>
+                                            <option value="NY">NY</option>
+                                            <option value="OK">OK</option>
+                                            <option value="TX">TX</option>
+                                        </select>
+                                        <small id="profile-state-error" class="form-text text-danger" aria-live="polite"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-zip">ZIP code</label>
+                                        <input id="profile-zip" class="form-control" autocomplete="postal-code" inputmode="numeric" aria-describedby="profile-zip-error">
+                                        <small id="profile-zip-error" class="form-text text-danger" aria-live="polite"></small>
+                                    </div>
+                                </fieldset>
+                                <button type="submit" class="btn oneMusic-btn mt-30">Save changes</button>
+                            </form>
+                            <p id="profile-status" class="mt-3" role="status"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-12 col-md-6">
+                    <a href="#"><img src="assets/img/core-img/neon-fm.png" alt="Neon FM"></a>
+                    <p class="copywrite-text"><a href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<span id="copyright-year"></span> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="footer-nav">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Albums</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="assets/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="assets/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="assets/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="assets/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="assets/js/active.js"></script>
+    <script src="assets/js/profile.js"></script>
+</body>
+
+</html>
