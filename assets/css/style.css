@@ -1676,3 +1676,65 @@ img {
 /* ====== The End ====== */
 
 /*# sourceMappingURL=style.css.map */
+@font-face {
+  font-family: "Glyphicons Halflings";
+  src: url("../fonts/glyphicons-halflings-regular.woff2") format("woff2");
+}
+
+.login-register-btn .account-menu {
+  position: relative;
+}
+
+.login-register-btn .account-menu summary {
+  display: block;
+  padding: 0.5rem;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.login-register-btn .account-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.login-register-btn .account-menu .glyphicon {
+  font-family: "Glyphicons Halflings";
+}
+
+.login-register-btn .account-menu .glyphicon-user::before {
+  content: "\e008";
+}
+
+.login-register-btn .account-menu-options {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 100%;
+  min-width: max-content;
+  background: #fff;
+  box-shadow: 0 3px 12px #0003;
+}
+
+.header-area .oneMusic-main-menu .login-register-cart-button .login-register-btn .account-menu-options a,
+.login-register-btn .account-menu-options button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 0;
+  background: transparent;
+  color: #151519;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+}
+
+.header-area .oneMusic-main-menu .login-register-cart-button .login-register-btn .account-menu-options a:hover,
+.header-area .oneMusic-main-menu .login-register-cart-button .login-register-btn .account-menu-options a:focus,
+.login-register-btn .account-menu-options button:hover,
+.login-register-btn .account-menu-options button:focus {
+  background: #eee;
+  color: #151519;
+}

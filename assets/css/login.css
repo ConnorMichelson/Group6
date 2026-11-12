@@ -1,0 +1,55 @@
+body,
+.preloader {
+    background-color: #151519;
+}
+
+.login-area .login-content {
+    background-color: #fff;
+    border-color: #fff;
+    border-radius: 8px;
+}
+
+.login-content .oneMusic-btn {
+    background-color: #ffd447;
+    border-color: #ffd447;
+    color: #151519;
+}
+
+.login-content .oneMusic-btn:hover,
+.login-content .oneMusic-btn:focus {
+    background-color: #f1bd22;
+    border-color: #f1bd22;
+    color: #151519;
+}
+.login-content .password-field .form-control {
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #444;
+    font-size: 0.875rem;
+    line-height: 1;
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+}
+
+.password-toggle:disabled {
+    opacity: 0.55;
+}
+
+.breadcumb-area.bg-img {
+    background-image: url(../img/bg-img/breadcumb3.jpg);
+}
