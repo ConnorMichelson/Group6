@@ -49,7 +49,7 @@ function showProfileStatus(message, isError = false) {
 async function requestProfile(options) {
   const response = await fetch("/api/profile", options);
   if (response.status === 401) {
-    window.location.replace("login.html");
+    window.location.replace("/login/");
     return null;
   }
   const data = await response.json();
@@ -102,7 +102,10 @@ profileForm.addEventListener("submit", async (event) => {
   try {
     const result = await requestProfile({
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": profileForm.querySelector('[name="csrfmiddlewaretoken"]').value,
+      },
       body: JSON.stringify(fields),
     });
     if (result) showProfileStatus(result.message);

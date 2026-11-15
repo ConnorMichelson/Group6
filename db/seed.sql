@@ -25,7 +25,7 @@ INSERT INTO products (artist, name, genre, format, price, quantity, sale_price, 
 ('AC/DC',             'Black Ice',                               'Rock',    'Vinyl', 32.99,  9, NULL,  NULL,                  'images/albums/black-ice.jpg'),
 ('U2',                'Achtung Baby',                            'Rock',    'Vinyl', 34.99,  7, NULL,  NULL,                  'images/albums/achtung-baby.jpg'),
 ('P!NK',              'M!ssundaztood',                           'Rock',    'Vinyl', 29.99,  5, NULL,  NULL,                  'images/albums/missundaztood.jpg'),
-('Rihanna',           'Unapologetic',                            'Pop',     'Vinyl', 31.99, 11, NULL,  NULL,                  'images/albums/unapologetic.jpg'),
+('YoungBoy Never Broke Again', '38 Baby 2', 'Hip Hop',     'Vinyl', 31.99, 11, NULL,  NULL,                  'images/albums/38-baby-2.jpg'),
 ('Hozier',            'Hozier',                                  'Blues',   'Vinyl', 32.99, 14, NULL,  NULL,                  'images/albums/hozier.jpg'),
 ('Pearl Jam',         'Ten',                                     'Rock',    'Vinyl', 27.99, 13, 21.99, '2026-12-31 23:59:59', 'images/albums/ten.jpg'),
 ('Gorillaz',          'Demon Days',                              'Rock',    'Vinyl', 32.99, 10, 24.99, '2026-12-31 23:59:59', 'images/albums/demon-days.jpg'),
@@ -56,7 +56,6 @@ INSERT INTO products (artist, name, genre, format, price, quantity, sale_price, 
 ('SZA',               'SOS',                                     'R&B',     'Vinyl', 42.99, 14, 34.99, '2026-12-31 23:59:59', 'images/albums/sos.jpg'),
 ('Dream Theater',     'Octavarium',                              'Rock',    'Vinyl', 39.99,  4, NULL,  NULL,                  'images/albums/octavarium.jpg'),
 -- NOTE: "The Old Hurt of Being Left Behind" is a song; the album is "A Fortress Called Home"
-('Seven Spires',      'The Old Hurt of Being Left Behind',       'Rock',    'Vinyl', 32.99,  3, NULL,  NULL,                  'images/albums/the-old-hurt-of-being-left-behind.jpg'),
 ('Wilderun',          'Sleep At the Edge of the Earth',          'Rock',    'Vinyl', 34.99,  0, NULL,  NULL,                  'images/albums/sleep-at-the-edge-of-the-earth.jpg'),
 ('White Ward',        'Love Exchange Failure',                   'Rock',    'Vinyl', 36.99,  2, NULL,  NULL,                  'images/albums/love-exchange-failure.jpg');
 

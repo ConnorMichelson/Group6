@@ -63,7 +63,7 @@ loginForm.querySelector("form").addEventListener("submit", async (event) => {
     },
     loginStatus,
   );
-  if (result) window.location.assign("index.html");
+  if (result) window.location.assign("/");
 });
 
 [loginEmail, loginPassword, ...registerForm.querySelectorAll("input")].forEach(
@@ -114,7 +114,10 @@ async function submitAccountForm(event, url, fields, status) {
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": document.querySelector('[name="csrfmiddlewaretoken"]').value,
+      },
       body: JSON.stringify(fields),
     });
     const result = await response.json();

@@ -1,0 +1,14 @@
+{% if request.session.customer_id %}
+<details class="account-menu">
+    <summary aria-label="Account menu"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></summary>
+    <div class="account-menu-options">
+        <a href="{% url 'profile' %}">Profiles</a>
+        <form method="post" action="{% url 'customer-logout' %}">
+            {% csrf_token %}
+            <button type="submit">Sign Out</button>
+        </form>
+    </div>
+</details>
+{% else %}
+<a href="{% url 'login' %}" id="loginBtn">Login / Register</a>
+{% endif %}

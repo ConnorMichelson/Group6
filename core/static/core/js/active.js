@@ -111,6 +111,7 @@
             // init Isotope
             var $grid = $('.oneMusic-albums').isotope({
                 itemSelector: '.single-album-item',
+                layoutMode: $('.oneMusic-albums').hasClass('shop-albums') ? 'fitRows' : 'masonry',
                 percentPosition: true,
                 masonry: {
                     columnWidth: '.single-album-item'

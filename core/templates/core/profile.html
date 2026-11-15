@@ -62,11 +62,11 @@
                             <div class="classynav">
                                 <ul>
                                     <li><a href="{% url 'home' %}">Home</a></li>
-                                    <li><a href="{% url 'store' %}">Albums</a></li>
+                                    <li><a href="{% url 'shop' %}">Shop</a></li>
                                     <li><a href="#">Pages</a>
                                         <ul class="dropdown">
                                             <li><a href="{% url 'home' %}">Home</a></li>
-                                            <li><a href="{% url 'store' %}">Albums</a></li>
+                                            <li><a href="{% url 'shop' %}">Shop</a></li>
                                             <li><a href="{% url 'event' %}">Events</a></li>
                                             <li><a href="{% url 'blog' %}">News</a></li>
                                             <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -100,7 +100,7 @@
                                 <div class="login-register-cart-button d-flex align-items-center">
                                     <!-- Login/Register -->
                                     <div class="login-register-btn mr-50">
-                                        <a href="{% url 'login' %}" id="loginBtn">Login / Register</a>
+                                        {% include "core/account-menu.html" %}
                                     </div>
 
                                     <!-- Cart Button -->
@@ -131,6 +131,7 @@
                         <h1 class="h3 text-center">Profile</h1>
                         <div class="login-form">
                             <form id="profile-form" hidden>
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <label for="profile-first-name">First name</label>
                                     <input id="profile-first-name" class="form-control" autocomplete="given-name" maxlength="100" pattern="[\p{L}\p{M}_\-]+" title="Use letters, hyphens, and underscores only." required>
