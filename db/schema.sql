@@ -194,10 +194,11 @@ CREATE TABLE order_items (
 -- WISHLIST_ITEMS  (bonus F20)
 -- ---------------------------------------------------------------------
 CREATE TABLE wishlist_items (
+  wishlist_item_id     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   customer_id  INT UNSIGNED NOT NULL,
   product_id   INT UNSIGNED NOT NULL,
   added_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (customer_id, product_id),
+  PRIMARY KEY (wishlist_item_id),
   CONSTRAINT fk_wishlist_customer FOREIGN KEY (customer_id)
     REFERENCES customers (customer_id) ON DELETE CASCADE,
   CONSTRAINT fk_wishlist_product FOREIGN KEY (product_id)
