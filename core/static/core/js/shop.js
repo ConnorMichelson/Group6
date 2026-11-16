@@ -1,18 +1,37 @@
 const shopCurrency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+let pendingCartUpdate = Promise.resolve();
 
-document.querySelectorAll('.shop-add:not(:disabled)').forEach((button) => {
-    const preview = button.nextElementSibling;
-    const available = Number(button.dataset.stock);
-    const unitCents = Math.round(Number(button.dataset.price) * 100);
-    let quantity = 0;
+document.querySelectorAll('.shop-cart-form').forEach((form) => {
+    const button = form.querySelector('button');
+    const preview = form.querySelector('.shop-cart-preview');
 
-    button.addEventListener('click', () => {
-        if (quantity >= available) return;
-
-        quantity += 1;
-        button.querySelector('.shop-add-plus').hidden = false;
-        button.setAttribute('aria-label', 'Add to cart: add another copy of ' + button.dataset.album);
-        button.disabled = quantity >= available;
-        preview.textContent = quantity + ' selected · ' + shopCurrency.format(quantity * unitCents / 100);
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (button.disabled) return;
+        button.disabled = true;
+        pendingCartUpdate = pendingCartUpdate.then(async () => {
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { Accept: 'application/json' },
+                    body: new FormData(form),
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    preview.textContent = data.message;
+                    button.disabled = response.status === 409;
+                    return;
+                }
+                document.querySelectorAll('[data-cart-count]').forEach((badge) => {
+                    badge.textContent = data.count;
+                });
+                button.querySelector('.shop-add-plus').hidden = false;
+                preview.textContent = data.quantity + ' in cart · ' + shopCurrency.format(data.subtotal);
+                button.disabled = data.at_limit;
+            } catch {
+                preview.textContent = 'Could not add this album. Try again.';
+                button.disabled = false;
+            }
+        });
     });
 });

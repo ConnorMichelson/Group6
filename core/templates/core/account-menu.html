@@ -2,7 +2,8 @@
 <details class="account-menu">
     <summary aria-label="Account menu"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></summary>
     <div class="account-menu-options">
-        <a href="{% url 'profile' %}">Profiles</a>
+        <a href="{% url 'profile' %}"{% if request.resolver_match.url_name == 'profile' %} aria-current="page"{% endif %}>Profiles</a>
+        <a href="{% url 'order-history' %}"{% if request.resolver_match.url_name == 'order-history' %} aria-current="page"{% endif %}>Order history</a>
         <form method="post" action="{% url 'customer-logout' %}">
             {% csrf_token %}
             <button type="submit">Sign Out</button>
@@ -10,5 +11,5 @@
     </div>
 </details>
 {% else %}
-<a href="{% url 'login' %}" id="loginBtn">Login / Register</a>
+<a href="{% url 'login' %}" id="loginBtn"{% if request.resolver_match.url_name == 'login' %} aria-current="page"{% endif %}>Login / Register</a>
 {% endif %}

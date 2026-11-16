@@ -1,0 +1,20 @@
+{% extends "core/profile.html" %}
+{% block title %}Order history{% endblock %}
+{% block profile_content %}
+<h1 class="h3 text-center">Order history</h1>
+                        {% for order in orders %}
+                        <section class="border rounded p-3 mb-3">
+                            <h2 class="h5"><a href="{% url 'order-success' order.pk %}">Order #{{ order.pk }}</a></h2>
+                            <p class="mb-2">{{ order.order_date|date:"M j, Y" }} · {{ order.get_status_display }}</p>
+                            <ul class="mb-2">
+                                {% for item in order.orderitems_set.all %}
+                                <li>{{ item.product_name }} · Quantity {{ item.quantity }}</li>
+                                {% endfor %}
+                            </ul>
+                            <strong>Total including tax ${{ order.total|floatformat:"2u" }}</strong>
+                        </section>
+                        {% empty %}
+                        <p class="text-center">You haven’t placed any orders yet.</p>
+                        {% endfor %}
+{% endblock %}
+{% block profile_scripts %}{% endblock %}

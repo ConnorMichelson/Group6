@@ -63,7 +63,10 @@ loginForm.querySelector("form").addEventListener("submit", async (event) => {
     },
     loginStatus,
   );
-  if (result) window.location.assign("/");
+  if (result) {
+    const next = new URLSearchParams(window.location.search).get("next");
+    window.location.assign(next === "cart" ? "/cart/" : "/");
+  }
 });
 
 [loginEmail, loginPassword, ...registerForm.querySelectorAll("input")].forEach(

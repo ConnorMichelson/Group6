@@ -1,0 +1,82 @@
+{% load static %}
+<header class="header-area site-header">
+        <!-- Navbar Area -->
+        <div class="oneMusic-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container-fluid">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="oneMusicNav">
+
+                        <!-- Nav brand -->
+                        <a href="{% url 'home' %}" class="nav-brand"><img src="{% static 'core/img/core-img/neon-fm.png' %}" alt="Neon FM"></a>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>Home</a></li>
+                                    <li><a href="{% url 'shop' %}" {% if request.resolver_match.url_name == 'shop' %}aria-current="page"{% endif %}>Shop</a></li>
+                                    <li><a href="#" {% if request.resolver_match.url_name == 'elements' %}class="current-section"{% endif %}>Pages</a>
+                                        <ul class="dropdown">
+                                            <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>Home</a></li>
+                                            <li><a href="{% url 'shop' %}" {% if request.resolver_match.url_name == 'shop' %}aria-current="page"{% endif %}>Shop</a></li>
+                                            <li><a href="{% url 'event' %}" {% if request.resolver_match.url_name == 'event' %}aria-current="page"{% endif %}>Events</a></li>
+                                            <li><a href="{% url 'blog' %}" {% if request.resolver_match.url_name == 'blog' %}aria-current="page"{% endif %}>News</a></li>
+                                            <li><a href="{% url 'contact' %}" {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>Contact</a></li>
+                                            <li><a href="{% url 'elements' %}" {% if request.resolver_match.url_name == 'elements' %}aria-current="page"{% endif %}>Elements</a></li>
+                                            <li><a href="{% url 'login' %}" {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>Login</a></li>
+                                            <li><a href="#">Dropdown</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'event' %}" {% if request.resolver_match.url_name == 'event' %}aria-current="page"{% endif %}>Events</a></li>
+                                    <li><a href="{% url 'blog' %}" {% if request.resolver_match.url_name == 'blog' %}aria-current="page"{% endif %}>News</a></li>
+                                    <li><a href="{% url 'contact' %}" {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>Contact</a></li>
+                                </ul>
+
+                                <!-- Login/Register & Cart Button -->
+                                <div class="login-register-cart-button d-flex align-items-center">
+                                    <!-- Login/Register -->
+                                    <div class="login-register-btn mr-50">
+                                        {% include "core/account-menu.html" %}
+                                    </div>
+
+                                    <!-- Cart Button -->
+                                    {% include "core/cart-link.html" %}
+                                </div>
+                            </div>
+                            <!-- Nav End -->
+
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>

@@ -2,8 +2,11 @@ from django.contrib.staticfiles import finders
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.views.decorators.cache import never_cache
 
-from .models import Products
+from .models import Orders, Products
+from .customer_accounts import SESSION_KEY
+from .cart import on_sale
 
 # Create your views here.
 
@@ -23,11 +26,8 @@ def shop_view(request):
     for product in products:
         initial = product.artist.strip()[:1].lower()
         product.artist_filter = initial if initial and initial in 'abcdefghijklmnopqrstuvwxyz' else 'number'
-        product.on_sale = (
-            product.sale_price is not None
-            and (product.sale_start is None or product.sale_start <= now)
-            and (product.sale_end is None or now < product.sale_end)
-        )
+        product.on_sale = on_sale(product, now)
+        product.cart_quantity = request.session.get('album_cart', {}).get(str(product.pk), 0)
         cover = f'core/{product.image_url}' if product.image_url else ''
         product.cover = cover if cover and finders.find(cover) else None
     if sort in ('price', 'price-desc'):
@@ -62,3 +62,13 @@ def profile_view(request):
     if not request.session.get('customer_id'):
         return redirect('login')
     return render(request, 'core/profile.html')
+
+
+@never_cache
+def order_history_view(request):
+    customer_id = request.session.get(SESSION_KEY)
+    if not customer_id:
+        return redirect('login')
+    orders = (Orders.objects.filter(customer_id=customer_id)
+              .prefetch_related('orderitems_set').order_by('-order_date', '-pk'))
+    return render(request, 'core/order-history.html', {'orders': orders})

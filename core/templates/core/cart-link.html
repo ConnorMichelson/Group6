@@ -1,0 +1,11 @@
+<div class="cart-btn">
+  <p>
+    <a href="{% url 'cart' %}" class="text-white">
+      <span class="icon-shopping-cart" aria-hidden="true"></span>
+      <span class="sr-only">Cart</span>
+      <span class="quantity" data-cart-count
+        >{{ request.session.cart_count|default:0 }}</span
+      >
+    </a>
+  </p>
+</div>

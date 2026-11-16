@@ -121,6 +121,4 @@ profileForm.addEventListener("submit", async (event) => {
   }
 });
 
-document.getElementById("copyright-year").textContent =
-  new Date().getFullYear();
 loadProfile();

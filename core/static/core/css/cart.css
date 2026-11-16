@@ -1,0 +1,85 @@
+.cart-card {
+    max-width: 56rem;
+    margin-inline: auto;
+    padding: clamp(1rem, 4vw, 2rem);
+    color: #151519;
+    background: #fff;
+    border: 3px solid #f000ff;
+    border-radius: 1.25rem;
+    box-shadow: 0 .5rem 1.5rem #0003;
+}
+
+.cart-card h1 {
+    padding-bottom: .5rem;
+}
+
+.cart-card .table-responsive {
+    border-radius: .75rem;
+    background: #f7f7fa;
+}
+
+.cart-card .table {
+    margin-bottom: 0;
+}
+
+.cart-totals {
+    padding-inline: 0.75rem;
+}
+
+.cart-continue {
+    margin-inline-start: 0.75rem;
+}
+
+.cart-card .form-control,
+.cart-card .btn {
+    border-radius: .75rem;
+}
+
+.cart-card .cart-action {
+    background: #00ffd5;
+    color: #151519;
+    box-shadow: inset 0 -3px #f000ff;
+    font-weight: 700;
+}
+
+.cart-card .cart-action:hover,
+.cart-card .cart-action:focus {
+    background: #00e5bf;
+    color: #151519;
+}
+.cart-card :is(#discount-code, #demo-number):focus {
+    border-color: #00ffd5;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 213, 0.25);
+}
+.cart-profile-layout {
+    padding: 2rem 15px 4rem;
+}
+
+.cart-profile-layout .login-content {
+    width: 100%;
+    max-width: 730px;
+    padding: clamp(1rem, 5vw, 3rem);
+}
+
+.cart-profile-layout #cart-heading {
+    font-size: 1.75rem;
+    text-align: center;
+}
+
+.cart-profile-layout form,
+.cart-profile-layout .cart-totals,
+.cart-profile-layout .table {
+    text-align: left;
+}
+.cart-code-row .form-control {
+    min-width: 0;
+    height: 3.125rem;
+}
+
+.cart-code-row .btn {
+    width: 8rem;
+    height: 3.125rem;
+}
+.shop-page .breadcumb-area.cart-turntable-banner {
+    background-image: url("../img/bg-img/cart-turntable.png");
+}

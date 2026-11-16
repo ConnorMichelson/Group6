@@ -1,0 +1,197 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {% if order %}Order successful{% else %}Cart{% endif %} | Neon FM
+    </title>
+    <link
+      rel="stylesheet"
+      href="{% static 'core/css/style.css' %}?v=centered-nav"
+    />
+    <link rel="stylesheet" href="{% static 'core/css/shop.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/css/cart.css' %}?v=turntable" />
+      <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+  </head>
+  <body class="shop-page">
+    {% include "core/site-header.html" %}
+    <div class="breadcumb-area bg-img{% if not order %} cart-turntable-banner{% endif %}"></div>
+    <main
+      class="login-area cart-profile-layout"
+    >
+      <section
+        class="cart-card login-content"
+        aria-labelledby="cart-heading"
+      >
+        {% if order %}
+        <h1 id="cart-heading">Order successful</h1>
+        <p>Demo order #{{ order.pk }} was saved. No payment was collected.</p>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr><th scope="col">Album</th><th scope="col">Quantity</th><th scope="col">Line total</th></tr>
+            </thead>
+            <tbody>
+              {% for item in order_items %}
+              <tr>
+                <th scope="row">{{ item.product_name }}</th>
+                <td>{{ item.quantity }}</td>
+                <td><strong>${{ item.line_total|floatformat:"2u" }}</strong></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-3">
+          Total including tax
+          <strong>${{ order.total|floatformat:"2u" }}</strong>
+        </p>
+        <a class="btn shop-apply" href="{% url 'shop' %}">Continue shopping</a>
+        {% else %}
+        <h1 id="cart-heading" class="mb-4">Your cart</h1>
+        {% if error %}
+        <p class="alert alert-danger">{{ error }}</p>
+        {% endif %} {% if rows or missing %}
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Album</th>
+                <th scope="col">Unit price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in rows %}
+              <tr>
+                <th scope="row">
+                  {{ row.product.name }}<br /><small
+                    >{{ row.product.artist }} · {{ row.product.format }}</small
+                  >
+                  {% if not row.available %}<br /><small
+                    >Requested quantity unavailable</small
+                  >{% endif %}
+                </th>
+                <td>${{ row.price|floatformat:"2u" }}</td>
+                <td>{{ row.count }}</td>
+                <td>${{ row.total|floatformat:"2u" }}</td>
+                <td>
+                  <form
+                    method="post"
+                    action="{% url 'cart-remove' row.product.pk %}"
+                  >
+                    {% csrf_token %}
+                    <button
+                      class="btn btn-sm btn-danger cart-remove"
+                      aria-label="Remove {{ row.product.name }}"
+                    >
+                      Remove
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %} {% for product_id in missing %}
+              <tr>
+                <td colspan="4">Album no longer available</td>
+                <td>
+                  <form
+                    method="post"
+                    action="{% url 'cart-remove' product_id %}"
+                  >
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger cart-remove">
+                      Remove
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <dl class="row mb-4 cart-totals">
+          <dt class="col-8">Subtotal</dt>
+          <dd class="col-4 text-right">${{ subtotal|floatformat:"2u" }}</dd>
+          {% if discount %}
+          <dt class="col-8">Discount ({{ discount.code }})</dt>
+          <dd class="col-4 text-right">−${{ discount_amount|floatformat:"2u" }}</dd>
+          <dt class="col-8">Subtotal after discount</dt>
+          <dd class="col-4 text-right">${{ discounted_subtotal|floatformat:"2u" }}</dd>
+          {% endif %}
+          <dt class="col-8">Tax (8.25%)</dt>
+          <dd class="col-4 text-right">${{ tax|floatformat:"2u" }}</dd>
+          <dt class="col-8">Total</dt>
+          <dd class="col-4 text-right">
+            <strong>${{ total|floatformat:"2u" }}</strong>
+          </dd>
+        </dl>
+        <form method="post" action="{% url 'cart-discount' %}" class="form-group">
+          {% csrf_token %}
+          <label for="discount-code">Discount code</label>
+          <div class="cart-code-row d-flex align-items-center">
+          <input
+            id="discount-code"
+            type="text"
+            name="discount_code"
+            value="{{ discount_input }}"
+            class="form-control"
+            maxlength="50"
+            aria-describedby="discount-help"
+          />
+            <button type="submit" class="btn shop-apply ml-2 flex-shrink-0 text-nowrap">Apply discount</button>
+          </div>
+          <small id="discount-help" class="form-text {% if discount_error %}text-danger{% else %}text-muted{% endif %}">{% if discount_error %}{{ discount_error }}{% else %}Clear the field and apply to remove a code.{% endif %}</small>
+        </form>
+        {% if can_checkout %} {% if request.session.customer_id %}
+        <form
+          id="demo-checkout"
+          method="post"
+          action="{% url 'cart-checkout' %}"
+          class="mb-4"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="version" value="{{ cart_version }}" />
+          <input type="hidden" name="demo_confirmed" value="" />
+          <label for="demo-number">Demo checkout code</label>
+          <div class="cart-code-row d-flex align-items-center">
+            <input
+              id="demo-number"
+              class="form-control"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{16}"
+              maxlength="16"
+              autocomplete="off"
+              aria-describedby="demo-help"
+              required
+            />
+            <button class="btn shop-apply ml-2 flex-shrink-0 text-nowrap" type="submit" disabled>
+              Place Order
+            </button>
+          </div>
+          <small id="demo-help" class="form-text text-muted">
+            Use any 16 fake digits, such as 0000000000000000. No payment is
+            collected.
+          </small>
+        </form>
+        {% else %}
+        <div class="mb-3">
+          <a class="btn shop-apply" href="{% url 'login' %}?next=cart">Sign in to check out</a>
+        </div>
+        {% endif %} {% endif %} {% else %}
+        <p>Your cart is empty.</p>
+        {% endif %}
+        <a class="cart-continue" href="{% url 'shop' %}">Continue shopping</a>
+        {% endif %}
+      </section>
+    </main>
+    <script src="{% static 'core/js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'core/js/plugins/plugins.js' %}"></script>
+    <script src="{% static 'core/js/active.js' %}"></script>
+    <script src="{% static 'core/js/cart.js' %}" defer></script>
+  </body>
+</html>

@@ -60,6 +60,12 @@
 
 .shop-page .breadcumb-area .bradcumbContent :is(h2, p) {
     color: #fff;
+    text-align: center;
+}
+
+.shop-page .breadcumb-area .bradcumbContent h2 {
+    letter-spacing: 0.15em;
+    text-indent: 0;
 }
 
 .shop-page .album-catagory .catagory-menu a {

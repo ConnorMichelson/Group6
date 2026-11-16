@@ -16,7 +16,7 @@
     <link rel="icon" href="{% static 'core/img/core-img/favicon.ico' %}">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=centered-nav">
     <link rel="stylesheet" href="{% static 'core/css/shop.css' %}">
 
 </head>
@@ -33,95 +33,12 @@
     </div>
 
     <!-- ##### Header Area Start ##### -->
-    <header class="header-area">
-        <!-- Navbar Area -->
-        <div class="oneMusic-main-menu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Menu -->
-                    <nav class="classy-navbar justify-content-between" id="oneMusicNav">
-
-                        <!-- Nav brand -->
-                        <a href="{% url 'home' %}" class="nav-brand"><img src="{% static 'core/img/core-img/neon-fm.png' %}" alt="Neon FM"></a>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu">
-
-                            <!-- Close Button -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li><a href="{% url 'home' %}">Home</a></li>
-                                    <li><a href="{% url 'shop' %}">Shop</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="{% url 'home' %}">Home</a></li>
-                                            <li><a href="{% url 'shop' %}">Shop</a></li>
-                                            <li><a href="{% url 'event' %}">Events</a></li>
-                                            <li><a href="{% url 'blog' %}">News</a></li>
-                                            <li><a href="{% url 'contact' %}">Contact</a></li>
-                                            <li><a href="{% url 'elements' %}">Elements</a></li>
-                                            <li><a href="{% url 'login' %}">Login</a></li>
-                                            <li><a href="#">Dropdown</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                    <li><a href="#">Even Dropdown</a>
-                                                        <ul class="dropdown">
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="{% url 'event' %}">Events</a></li>
-                                    <li><a href="{% url 'blog' %}">News</a></li>
-                                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                                </ul>
-
-                                <!-- Login/Register & Cart Button -->
-                                <div class="login-register-cart-button d-flex align-items-center">
-                                    <!-- Login/Register -->
-                                    <div class="login-register-btn mr-50">
-                                        {% include "core/account-menu.html" %}
-                                    </div>
-
-                                    <!-- Cart Button -->
-                                    <div class="cart-btn">
-                                        <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Nav End -->
-
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+    {% include "core/site-header.html" %}
     <!-- ##### Header Area End ##### -->
 
     <!-- ##### Breadcumb Area Start ##### -->
     <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'core/img/bg-img/breadcumb3.jpg' %});">
         <div class="bradcumbContent">
-            <p>See what’s new</p>
             <h2>Shop</h2>
         </div>
     </section>
@@ -212,11 +129,12 @@
                             </p>
                             <p>{% if product.quantity %}{{ product.quantity }} in stock{% else %}Sold out{% endif %}</p>
                         </div>
-                        <button type="button" class="btn btn-sm btn-dark btn-block shop-add"
-                                data-stock="{{ product.quantity|floatformat:'0u' }}"
-                                data-price="{% if product.on_sale %}{{ product.sale_price|floatformat:'2u' }}{% else %}{{ product.price|floatformat:'2u' }}{% endif %}"
-                                data-album="{{ product.name }}"{% if not product.quantity %} disabled{% endif %}>Add to cart<span class="shop-add-plus" aria-hidden="true" hidden>+</span></button>
-                        <div class="shop-cart-preview" role="status"></div>
+                        <form class="shop-cart-form" method="post" action="{% url 'cart-add' product.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-dark btn-block shop-add"
+                                    {% if product.cart_quantity >= product.quantity %}disabled{% endif %}>Add to cart<span class="shop-add-plus" aria-hidden="true"{% if not product.cart_quantity %} hidden{% endif %}>+</span></button>
+                            <div class="shop-cart-preview" role="status">{% if product.cart_quantity %}{{ product.cart_quantity }} in cart{% endif %}</div>
+                        </form>
                     </div>
                 </div>
                 {% empty %}
@@ -315,7 +233,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'core/js/plugins/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'core/js/active.js' %}"></script>
-    <script src="{% static 'core/js/shop.js' %}"></script>
+    <script src="{% static 'core/js/shop.js' %}?v=2"></script>
 </body>
 
 </html>
