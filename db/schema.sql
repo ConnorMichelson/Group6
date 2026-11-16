@@ -195,10 +195,12 @@ CREATE TABLE order_items (
 -- ---------------------------------------------------------------------
 CREATE TABLE wishlist_items (
   wishlist_item_id     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  UNIQUE KEY uq_wishlist (customer_id, product_id),
   customer_id  INT UNSIGNED NOT NULL,
   product_id   INT UNSIGNED NOT NULL,
   added_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (wishlist_item_id),
+  UNIQUE KEY uq_wishlist (customer_id, product_id),
   CONSTRAINT fk_wishlist_customer FOREIGN KEY (customer_id)
     REFERENCES customers (customer_id) ON DELETE CASCADE,
   CONSTRAINT fk_wishlist_product FOREIGN KEY (product_id)
@@ -215,11 +217,11 @@ SELECT
   p.*,
   (p.sale_price IS NOT NULL
      AND (p.sale_start IS NULL OR p.sale_start <= NOW())
-     AND (p.sale_end   IS NULL OR p.sale_end   >= NOW()))      AS on_sale,
+     AND (p.sale_end   IS NULL OR p.sale_end > NOW()))      AS on_sale,
   CASE
     WHEN p.sale_price IS NOT NULL
      AND (p.sale_start IS NULL OR p.sale_start <= NOW())
-     AND (p.sale_end   IS NULL OR p.sale_end   >= NOW())
+     AND (p.sale_end   IS NULL OR p.sale_end > NOW())
     THEN p.sale_price
     ELSE p.price
   END                                                           AS current_price,

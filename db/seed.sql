@@ -4,8 +4,7 @@
 --
 -- Prices, quantities, and sales are sample values for demos.
 -- release_year and description are left NULL to fill in later.
--- Images: put cover files at public/images/albums/<file>.jpg
--- =====================================================================
+-- Images: put cover files at core/static/core/images/albums/<file>.jpg-- =====================================================================
 
 USE group6_music;
 
@@ -16,7 +15,6 @@ USE group6_music;
 INSERT INTO products (artist, name, genre, format, price, quantity, sale_price, sale_end, image_url) VALUES
 ('Faye Webster',      'Run and Tell',                            'Country', 'Vinyl', 26.99, 12, NULL,  NULL,                  'images/albums/run-and-tell.jpg'),
 ('Frank Ocean',       'Blonde',                                  'R&B',     'Vinyl', 44.99,  0, NULL,  NULL,                  'images/albums/blonde.jpg'),
--- TODO: confirm this album/artist with whoever added it
 ('Love Letter',       'You Look Good In Red',                    'Emo',     'Vinyl', 24.99,  0, NULL,  NULL,                  'images/albums/you-look-good-in-red.jpg'),
 ('BTS',               'Love Yourself: Answer',                   'Pop',     'Vinyl', 39.99, 15, NULL,  NULL,                  'images/albums/love-yourself-answer.jpg'),
 ('Metallica',         'Load',                                    'Rock',    'Vinyl', 36.99,  8, NULL,  NULL,                  'images/albums/load.jpg'),
@@ -55,7 +53,6 @@ INSERT INTO products (artist, name, genre, format, price, quantity, sale_price, 
 ('Lil Wayne',         'Tha Carter IV',                           'Hip Hop', 'Vinyl', 36.99,  5, NULL,  NULL,                  'images/albums/tha-carter-iv.jpg'),
 ('SZA',               'SOS',                                     'R&B',     'Vinyl', 42.99, 14, 34.99, '2026-12-31 23:59:59', 'images/albums/sos.jpg'),
 ('Dream Theater',     'Octavarium',                              'Rock',    'Vinyl', 39.99,  4, NULL,  NULL,                  'images/albums/octavarium.jpg'),
--- NOTE: "The Old Hurt of Being Left Behind" is a song; the album is "A Fortress Called Home"
 ('Wilderun',          'Sleep At the Edge of the Earth',          'Rock',    'Vinyl', 34.99,  0, NULL,  NULL,                  'images/albums/sleep-at-the-edge-of-the-earth.jpg'),
 ('White Ward',        'Love Exchange Failure',                   'Rock',    'Vinyl', 36.99,  2, NULL,  NULL,                  'images/albums/love-exchange-failure.jpg');
 

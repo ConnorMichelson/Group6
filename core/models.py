@@ -13,9 +13,10 @@ class CartItems(models.Model):
     cart = models.ForeignKey('Carts', models.DO_NOTHING)
     product = models.ForeignKey('Products', models.DO_NOTHING)
     quantity = models.IntegerField()
-    added_at = models.DateTimeField()
+    added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        managed = False
         db_table = 'cart_items'
         unique_together = (('cart', 'product'),)
         verbose_name_plural = 'CartItems'
@@ -24,10 +25,11 @@ class Carts(models.Model):
     cart_id = models.AutoField(primary_key=True)
     customer = models.OneToOneField('Customers', models.DO_NOTHING)
     discount_code = models.ForeignKey('DiscountCodes', models.DO_NOTHING, blank=True, null=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        managed = False
         db_table = 'carts'
         verbose_name_plural = 'Carts'
 
@@ -42,11 +44,12 @@ class Customers(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=2, blank=True, null=True)
     zip = models.CharField(max_length=10, blank=True, null=True)
-    is_admin = models.IntegerField()
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    is_admin = models.BooleanField(default=False)    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        managed = False
         db_table = 'customers'
         verbose_name_plural = 'Customers'
 
@@ -55,14 +58,15 @@ class DiscountCodes(models.Model):
     code_id = models.AutoField(primary_key=True)
     code = models.CharField(unique=True, max_length=50)
     description = models.CharField(max_length=255, blank=True, null=True)
-    discount_type = models.CharField(max_length=7)
+    discount_type = models.CharField(max_length=7, choices=[('percent', 'Percent'), ('flat', 'Flat')])
     value = models.DecimalField(max_digits=10, decimal_places=2)
-    min_order = models.DecimalField(max_digits=10, decimal_places=2)
+    min_order = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     expires_at = models.DateTimeField(blank=True, null=True)
-    active = models.IntegerField()
-    created_at = models.DateTimeField()
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        managed = False
         db_table = 'discount_codes'
         verbose_name_plural = 'DiscountCodes'
 
@@ -75,9 +79,10 @@ class OrderItems(models.Model):
     artist = models.CharField(max_length=255)
     quantity = models.IntegerField()
     price_at_purchase = models.DecimalField(max_digits=10, decimal_places=2)
-    was_on_sale = models.IntegerField()
+    was_on_sale = models.BooleanField(default=False)
 
     class Meta:
+        managed = False
         db_table = 'order_items'
         verbose_name_plural = 'OrderItems'
 
@@ -85,8 +90,8 @@ class OrderItems(models.Model):
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customers, models.DO_NOTHING)
-    order_date = models.DateTimeField()
-    status = models.CharField(max_length=10)
+    order_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=[('placed', 'Placed'), ('processing', 'Processing'), ('shipped', 'Shipped'), ('completed', 'Completed'), ('cancelled', 'Cancelled')], default='placed')
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     discount_code = models.ForeignKey(DiscountCodes, models.DO_NOTHING, blank=True, null=True)
     discount_code_0 = models.CharField(db_column='discount_code', max_length=50, blank=True, null=True)  # Field renamed because of name conflict.
@@ -96,6 +101,7 @@ class Orders(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
+        managed = False
         db_table = 'orders'
         verbose_name_plural = 'Orders'
 
@@ -105,20 +111,20 @@ class Products(models.Model):
     name = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)
     genre = models.CharField(max_length=50, blank=True, null=True)
-    format = models.CharField(max_length=5)
+    format = models.CharField(max_length=5, choices=[('Vinyl', 'Vinyl'), ('CD', 'CD')], default='Vinyl')
     release_year = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image_url = models.CharField(max_length=500, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=0)
     sale_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     sale_start = models.DateTimeField(blank=True, null=True)
     sale_end = models.DateTimeField(blank=True, null=True)
-    status = models.CharField(max_length=12)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
-
+    status = models.CharField(max_length=12, choices=[('active', 'Active'), ('coming_soon', 'Coming soon'), ('discontinued', 'Discontinued')], default='active')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
+        managed = False
         db_table = 'products'
         verbose_name_plural = 'Products'
 
@@ -128,8 +134,10 @@ class WishlistItems(models.Model):
     wishlist_item_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customers, models.DO_NOTHING)
     product = models.ForeignKey(Products, models.DO_NOTHING)
-    added_at = models.DateTimeField()
+    added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        managed = False
         db_table = 'wishlist_items'
+        unique_together = (('customer', 'product'),)
         verbose_name_plural = 'WishlistItems'
