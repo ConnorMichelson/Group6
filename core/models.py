@@ -53,6 +53,9 @@ class Customers(models.Model):
         db_table = 'customers'
         verbose_name_plural = 'Customers'
 
+    def __str__(self):          
+        return self.email
+
 
 class DiscountCodes(models.Model):
     code_id = models.AutoField(primary_key=True)
@@ -105,6 +108,9 @@ class Orders(models.Model):
         db_table = 'orders'
         verbose_name_plural = 'Orders'
 
+    def __str__(self):       
+        return f'Order #{self.order_id}'  
+
 
 class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
@@ -127,6 +133,9 @@ class Products(models.Model):
         managed = False
         db_table = 'products'
         verbose_name_plural = 'Products'
+
+    def __str__(self): 
+        return f'{self.name} - {self.artist}'  
 
 
 class WishlistItems(models.Model):

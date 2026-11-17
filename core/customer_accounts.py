@@ -3,7 +3,9 @@ import re
 import unicodedata
 
 import bcrypt
+from django.contrib.auth import login as admin_login, logout as admin_logout
 from django.contrib.auth.hashers import BCryptSHA256PasswordHasher
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import IntegrityError
@@ -102,14 +104,29 @@ def login(request):
     if not matched:
         return error('Email or password is incorrect.', 401)
 
-    request.session.cycle_key()
-    request.session[SESSION_KEY] = customer.pk
-    return JsonResponse({'message': 'Logged in.'})
+    #request.session.cycle_key()
+    #Admin acct
+    if customer.is_admin:
+        user, _ = User.objects.get_or_create(username=customer.email)
+        user.email = customer.email
+        user.is_staff = True
+        user.is_superuser = True
+        user.set_unusable_password()
+        user.save()
+        admin_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    elif request.user.is_authenticated:
+        admin_logout(request)
+    else:
+        request.session.cycle_key()
+        request.session[SESSION_KEY] = customer.pk
+        return JsonResponse({'message': 'Logged in.'})
 
 
 @require_POST
 def logout(request):
     request.session.pop(SESSION_KEY, None)
+    if request.user.is_authenticated:   
+        admin_logout(request)           
     request.session.cycle_key()
     return redirect('home')
 

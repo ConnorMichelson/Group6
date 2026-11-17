@@ -195,7 +195,6 @@ CREATE TABLE order_items (
 -- ---------------------------------------------------------------------
 CREATE TABLE wishlist_items (
   wishlist_item_id     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  UNIQUE KEY uq_wishlist (customer_id, product_id),
   customer_id  INT UNSIGNED NOT NULL,
   product_id   INT UNSIGNED NOT NULL,
   added_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
