@@ -73,6 +73,9 @@ class DiscountCodes(models.Model):
         db_table = 'discount_codes'
         verbose_name_plural = 'DiscountCodes'
 
+        def __str__(self):
+            return self.code
+
 
 class OrderItems(models.Model):
     order_item_id = models.AutoField(primary_key=True)

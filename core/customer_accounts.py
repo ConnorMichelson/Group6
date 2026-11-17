@@ -118,8 +118,8 @@ def login(request):
         admin_logout(request)
     else:
         request.session.cycle_key()
-        request.session[SESSION_KEY] = customer.pk
-        return JsonResponse({'message': 'Logged in.'})
+    request.session[SESSION_KEY] = customer.pk
+    return JsonResponse({'message': 'Logged in.'})
 
 
 @require_POST
