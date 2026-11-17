@@ -15,11 +15,15 @@
 
 .cart-card .table-responsive {
     border-radius: .75rem;
-    background: #f7f7fa;
+    background: transparent;
 }
 
 .cart-card .table {
     margin-bottom: 0;
+}
+
+.cart-card .table thead th {
+    border-top: 0;
 }
 
 .cart-totals {
@@ -57,7 +61,7 @@
 
 .cart-profile-layout .login-content {
     width: 100%;
-    max-width: 730px;
+    max-width: 880px;
     padding: clamp(1rem, 5vw, 3rem);
 }
 
@@ -82,4 +86,46 @@
 }
 .shop-page .breadcumb-area.cart-turntable-banner {
     background-image: url("../img/bg-img/cart-turntable.png");
+}
+.cart-album {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cart-card .cart-album-cover {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    flex: none;
+    border-radius: 0.25rem;
+}
+
+.cart-card .cart-quantity {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.375rem;
+    white-space: nowrap;
+}
+
+.cart-card .cart-quantity .btn {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border-radius: 0.375rem;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.cart-card .cart-quantity span {
+    min-width: 1.25rem;
+    text-align: center;
+}
+
+.cart-card .table :is(td, th) {
+    vertical-align: middle;
 }

@@ -66,6 +66,8 @@ def shop_view(request):
     if sort in ('price', 'price-desc'):
         products.sort(key=lambda product: product.sale_price if product.on_sale else product.price,
                       reverse=sort == 'price-desc')
+    elif sort in ('stock-asc', 'stock-desc'):
+        products.sort(key=lambda product: product.quantity, reverse=sort == 'stock-desc')
     elif sort == 'genre':
         products.sort(key=lambda product: (not product.genre, (product.genre or '').casefold()))
     elif sort == 'name':
@@ -98,6 +100,17 @@ def order_history_view(request):
     customer_id = request.session.get(SESSION_KEY)
     if not customer_id:
         return redirect('login')
+    sort = request.GET.get('sort', 'newest')
+    ordering = {'newest': ('-order_date', '-pk'), 'oldest': ('order_date', 'pk'),
+                'price-asc': ('total', '-order_date', '-pk'), 'price-desc': ('-total', '-order_date', '-pk')}
+    if sort not in ordering:
+        sort = 'newest'
     orders = (Orders.objects.filter(customer_id=customer_id)
-              .prefetch_related('orderitems_set').order_by('-order_date', '-pk'))
-    return render(request, 'core/order-history.html', {'orders': orders})
+              .prefetch_related('orderitems_set__product').order_by(*ordering[sort]))
+    for order in orders:
+        order.history_items = list(order.orderitems_set.all())
+        for item in order.history_items:
+            item.cover = catalog_cover(item.product)
+            item.line_total = item.price_at_purchase * item.quantity
+            item.sale_savings = max(0, item.product.price - item.price_at_purchase) * item.quantity if item.was_on_sale else 0
+    return render(request, 'core/order-history.html', {'orders': orders, 'history_sort': sort})

@@ -1,4 +1,5 @@
 {% load static %}
+{% load tz %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,7 +13,7 @@
       href="{% static 'core/css/style.css' %}?v=neon-background"
     />
     <link rel="stylesheet" href="{% static 'core/css/shop.css' %}" />
-    <link rel="stylesheet" href="{% static 'core/css/cart.css' %}?v=turntable" />
+    <link rel="stylesheet" href="{% static 'core/css/cart.css' %}?v=compact-quantity" />
       <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
   </head>
   <body class="shop-page neon-background">
@@ -28,6 +29,7 @@
         {% if order %}
         <h1 id="cart-heading">Order successful</h1>
         <p>Demo order #{{ order.pk }} was saved. No payment was collected.</p>
+        <p>{{ order.order_date|timezone:"America/Chicago"|date:"M j, Y · g:i:s A T" }}</p>
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -36,19 +38,28 @@
             <tbody>
               {% for item in order_items %}
               <tr>
-                <th scope="row">{{ item.product_name }}</th>
+                <th scope="row"><div class="cart-album">
+                  {% if item.cover %}<img class="cart-album-cover" src="{% static item.cover %}" alt="">{% endif %}
+                  <div>{{ item.product_name }}<br><small>{{ item.artist }}</small></div>
+                </div></th>
                 <td>{{ item.quantity }}</td>
-                <td><strong>${{ item.line_total|floatformat:"2u" }}</strong></td>
+                <td><strong>${{ item.line_total|floatformat:"2u" }}</strong>{% if item.sale_savings %}<br><small class="text-danger">Sale savings −${{ item.sale_savings|floatformat:"2u" }}*</small>{% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
-        <p class="mt-3">
-          Total including tax
-          <strong>${{ order.total|floatformat:"2u" }}</strong>
-        </p>
-        <a class="btn shop-apply" href="{% url 'shop' %}">Continue shopping</a>
+        <dl class="row mt-3 cart-totals">
+          <dt class="col-8">Subtotal</dt><dd class="col-4 text-right">${{ order.subtotal|floatformat:"2u" }}</dd>
+          {% if order.discount_amount %}
+          <dt class="col-8">Discount{% if order.discount_code_0 %} ({{ order.discount_code_0 }}){% endif %}</dt><dd class="col-4 text-right">−${{ order.discount_amount|floatformat:"2u" }}</dd>
+          {% endif %}
+          <dt class="col-8">Tax</dt><dd class="col-4 text-right">${{ order.tax|floatformat:"2u" }}</dd>
+          <dt class="col-8">Total</dt><dd class="col-4 text-right"><strong>${{ order.total|floatformat:"2u" }}</strong></dd>
+        </dl>
+        <p><small class="text-muted">*Sale savings compare the purchase price with the current regular price.</small></p>
+        <a class="btn btn-dark" href="{% url 'shop' %}">Continue shopping</a>
+        <a class="btn btn-dark mt-2 mt-sm-0" href="{% url 'order-history' %}">View Order History</a>
         {% else %}
         <h1 id="cart-heading" class="mb-4">Your cart</h1>
         {% if error %}
@@ -69,16 +80,34 @@
               {% for row in rows %}
               <tr>
                 <th scope="row">
+                  <div class="cart-album">
+                  {% if row.cover %}<img class="cart-album-cover" src="{% static row.cover %}" alt="">{% endif %}
+                  <div>
                   {{ row.product.name }}<br /><small
                     >{{ row.product.artist }} · {{ row.product.format }}</small
                   >
                   {% if not row.available %}<br /><small
                     >Requested quantity unavailable</small
                   >{% endif %}
+                  </div>
+                  </div>
                 </th>
-                <td>${{ row.price|floatformat:"2u" }}</td>
-                <td>{{ row.count }}</td>
-                <td>${{ row.total|floatformat:"2u" }}</td>
+                <td>
+                  {% if row.sale %}<del class="text-muted">${{ row.product.price|floatformat:"2u" }}</del><br>{% endif %}
+                  ${{ row.price|floatformat:"2u" }}
+                </td>
+                <td>
+                  <form class="cart-quantity" method="post" action="{% url 'cart-quantity' row.product.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-dark" name="action" value="decrease" aria-label="Decrease quantity of {{ row.product.name }}">−</button>
+                    <span>{{ row.count }}</span>
+                    <button class="btn btn-sm btn-dark" name="action" value="increase" aria-label="Increase quantity of {{ row.product.name }}"{% if row.count >= row.product.quantity or row.product.status != 'active' %} disabled{% endif %}>+</button>
+                  </form>
+                </td>
+                <td>
+                  ${{ row.total|floatformat:"2u" }}
+                  {% if row.sale %}<br><small class="text-danger">Sale savings −${{ row.sale_savings|floatformat:"2u" }}</small>{% endif %}
+                </td>
                 <td>
                   <form
                     method="post"
@@ -114,6 +143,10 @@
           </table>
         </div>
         <dl class="row mb-4 cart-totals">
+          {% if sale_savings_total %}
+          <dt class="col-8 text-danger">Total sale savings</dt>
+          <dd class="col-4 text-right text-danger">−${{ sale_savings_total|floatformat:"2u" }}</dd>
+          {% endif %}
           <dt class="col-8">Subtotal</dt>
           <dd class="col-4 text-right">${{ subtotal|floatformat:"2u" }}</dd>
           {% if discount %}
@@ -142,7 +175,7 @@
             maxlength="50"
             aria-describedby="discount-help"
           />
-            <button type="submit" class="btn shop-apply ml-2 flex-shrink-0 text-nowrap">Apply discount</button>
+            <button type="submit" class="btn btn-dark ml-2 flex-shrink-0 text-nowrap">Apply discount</button>
           </div>
           <small id="discount-help" class="form-text {% if discount_error %}text-danger{% else %}text-muted{% endif %}">{% if discount_error %}{{ discount_error }}{% else %}Clear the field and apply to remove a code.{% endif %}</small>
         </form>
@@ -169,7 +202,7 @@
               aria-describedby="demo-help"
               required
             />
-            <button class="btn shop-apply ml-2 flex-shrink-0 text-nowrap" type="submit" disabled>
+            <button class="btn btn-dark ml-2 flex-shrink-0 text-nowrap" type="submit" disabled>
               Place Order
             </button>
           </div>
@@ -185,7 +218,7 @@
         {% endif %} {% endif %} {% else %}
         <p>Your cart is empty.</p>
         {% endif %}
-        <a class="cart-continue" href="{% url 'shop' %}">Continue shopping</a>
+        <a class="btn btn-dark cart-continue" href="{% url 'shop' %}">Continue shopping</a>
         {% endif %}
       </section>
     </main>

@@ -1,0 +1,48 @@
+.login-area .login-content:has(.history-order) {
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.history-order {
+    text-align: left;
+}
+
+.history-album {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.history-album img {
+    width: 48px;
+    height: 48px;
+    flex: none;
+    object-fit: cover;
+}
+
+.history-order .table :is(td, th) {
+    vertical-align: middle;
+}
+.history-sort {
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.history-sort label {
+    flex: none;
+    white-space: nowrap;
+}
+
+.history-sort .form-control {
+    width: 15rem;
+    max-width: 50vw;
+    height: 2.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.history-sort .btn {
+    flex: none;
+    padding: 0.25rem 0.75rem;
+    height: 2.25rem;
+    font-size: 0.875rem;
+}

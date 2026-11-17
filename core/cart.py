@@ -2,6 +2,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from uuid import uuid4
 
 from django.contrib.sessions.models import Session
+from django.contrib.staticfiles import finders
 from django.db import transaction
 from django.db.models import F
 from django.http import JsonResponse
@@ -37,8 +38,11 @@ def cart_details(quantities, products, code=''):
         count = quantities[str(product.pk)]
         sale = on_sale(product, now)
         price = product.sale_price if sale else product.price
+        cover = f'core/{product.image_url}' if product.image_url else ''
         rows.append({'product': product, 'count': count, 'price': price, 'sale': sale,
+                     'cover': cover if cover and finders.find(cover) else None,
                      'total': price * count,
+                     'sale_savings': (product.price - price) * count,
                      'available': product.status == 'active' and count <= product.quantity})
     subtotal = sum((row['total'] for row in rows), Decimal('0.00'))
     discount = DiscountCodes.objects.filter(code__iexact=code, active=True).first() if code and subtotal else None
@@ -57,6 +61,7 @@ def cart_details(quantities, products, code=''):
     discounted_subtotal = subtotal - amount
     tax = (discounted_subtotal * TAX_RATE).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
     return {'rows': rows, 'subtotal': subtotal, 'tax': tax, 'total': discounted_subtotal + tax,
+            'sale_savings_total': sum((row['sale_savings'] for row in rows), Decimal('0.00')),
             'discount': discount, 'discount_amount': amount, 'discounted_subtotal': discounted_subtotal,
             'discount_error': discount_error, 'discount_input': code,
             'can_checkout': bool(rows) and len(rows) == len(quantities)
@@ -101,6 +106,28 @@ def add(request, product_id):
     price = product.sale_price if on_sale(product, timezone.now()) else product.price
     return JsonResponse({'quantity': count + 1, 'count': request.session['cart_count'],
                          'subtotal': str(price * (count + 1)), 'at_limit': count + 1 >= product.quantity})
+
+
+@require_POST
+def change_quantity(request, product_id):
+    quantities = request.session.get('album_cart', {}).copy()
+    key = str(product_id)
+    if key not in quantities:
+        return redirect('cart')
+    action = request.POST.get('action')
+    if action == 'decrease':
+        quantities[key] -= 1
+        if quantities[key] == 0:
+            del quantities[key]
+    elif action == 'increase':
+        product = get_object_or_404(Products, pk=product_id)
+        if product.status != 'active' or quantities[key] >= product.quantity:
+            return redirect('cart')
+        quantities[key] += 1
+    else:
+        return redirect('cart')
+    save_cart(request.session, quantities)
+    return redirect('cart')
 
 
 @require_POST
@@ -162,5 +189,9 @@ def order_success(request, order_id):
     if not request.session.get(SESSION_KEY):
         return redirect('login')
     order = get_object_or_404(Orders, pk=order_id, customer_id=request.session[SESSION_KEY])
-    items = order.orderitems_set.annotate(line_total=F('price_at_purchase') * F('quantity'))
+    items = order.orderitems_set.select_related('product').annotate(line_total=F('price_at_purchase') * F('quantity'))
+    for item in items:
+        cover = f'core/{item.product.image_url}' if item.product.image_url else ''
+        item.cover = cover if cover and finders.find(cover) else None
+        item.sale_savings = max(0, item.product.price - item.price_at_purchase) * item.quantity if item.was_on_sale else 0
     return render(request, 'core/order-success.html', {'order': order, 'order_items': items})

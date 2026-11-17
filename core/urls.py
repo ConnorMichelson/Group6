@@ -15,6 +15,7 @@ urlpatterns = [
     path('cart/discount/', cart.apply_discount, name='cart-discount'),
     path('cart/add/<int:product_id>/', cart.add, name='cart-add'),
     path('cart/remove/<int:product_id>/', cart.remove, name='cart-remove'),
+    path('cart/quantity/<int:product_id>/', cart.change_quantity, name='cart-quantity'),
     path('cart/checkout/', cart.checkout, name='cart-checkout'),
     path('orders/<int:order_id>/success/', cart.order_success, name='order-success'),
     path('api/register', customer_accounts.register, name='customer-register'),

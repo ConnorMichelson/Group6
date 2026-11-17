@@ -1,20 +1,53 @@
 {% extends "core/profile.html" %}
+{% load static %}
+{% load tz %}
 {% block title %}Order history{% endblock %}
+{% block profile_styles %}<link rel="stylesheet" href="{% static 'core/css/order-history.css' %}">{% endblock %}
 {% block profile_content %}
 <h1 class="h3 text-center">Order history</h1>
-                        {% for order in orders %}
-                        <section class="border rounded p-3 mb-3">
-                            <h2 class="h5"><a href="{% url 'order-success' order.pk %}">Order #{{ order.pk }}</a></h2>
-                            <p class="mb-2">{{ order.order_date|date:"M j, Y" }} · {{ order.get_status_display }}</p>
-                            <ul class="mb-2">
-                                {% for item in order.orderitems_set.all %}
-                                <li>{{ item.product_name }} · Quantity {{ item.quantity }}</li>
-                                {% endfor %}
-                            </ul>
-                            <strong>Total including tax ${{ order.total|floatformat:"2u" }}</strong>
-                        </section>
-                        {% empty %}
-                        <p class="text-center">You haven’t placed any orders yet.</p>
-                        {% endfor %}
+<form method="get" class="history-sort d-flex align-items-center mb-4">
+    <label for="history-sort" class="mr-2 mb-0">Sort by</label>
+    <select id="history-sort" name="sort" class="form-control mr-2">
+        <option value="newest"{% if history_sort == 'newest' %} selected{% endif %}>Date and time (newest first)</option>
+        <option value="oldest"{% if history_sort == 'oldest' %} selected{% endif %}>Date and time (oldest first)</option>
+        <option value="price-asc"{% if history_sort == 'price-asc' %} selected{% endif %}>Total price (low to high)</option>
+        <option value="price-desc"{% if history_sort == 'price-desc' %} selected{% endif %}>Total price (high to low)</option>
+    </select>
+    <button class="btn btn-dark" type="submit">Apply</button>
+</form>
+{% for order in orders %}
+<section class="border rounded p-3 mb-3 history-order">
+    <h2 class="h5"><a href="{% url 'order-success' order.pk %}">Order #{{ order.pk }}</a></h2>
+    <p>{{ order.order_date|timezone:"America/Chicago"|date:"M j, Y · g:i:s A T" }} · {{ order.get_status_display }}</p>
+    <div class="table-responsive">
+        <table class="table">
+            <thead><tr><th scope="col">Album</th><th scope="col">Quantity</th><th scope="col">Line total</th></tr></thead>
+            <tbody>
+            {% for item in order.history_items %}
+            <tr>
+                <th scope="row"><div class="history-album">
+                    {% if item.cover %}<img src="{% static item.cover %}" alt="">{% endif %}
+                    <div>{{ item.product_name }}<br><small>{{ item.artist }}</small></div>
+                </div></th>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.line_total|floatformat:"2u" }}{% if item.sale_savings %}<br><small class="text-danger">Sale savings −${{ item.sale_savings|floatformat:"2u" }}*</small>{% endif %}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <dl class="row mt-3 mb-0">
+        <dt class="col-8">Subtotal</dt><dd class="col-4 text-right">${{ order.subtotal|floatformat:"2u" }}</dd>
+        {% if order.discount_amount %}
+        <dt class="col-8">Discount{% if order.discount_code_0 %} ({{ order.discount_code_0 }}){% endif %}</dt><dd class="col-4 text-right">−${{ order.discount_amount|floatformat:"2u" }}</dd>
+        {% endif %}
+        <dt class="col-8">Tax</dt><dd class="col-4 text-right">${{ order.tax|floatformat:"2u" }}</dd>
+        <dt class="col-8">Total</dt><dd class="col-4 text-right"><strong>${{ order.total|floatformat:"2u" }}</strong></dd>
+    </dl>
+</section>
+{% empty %}
+<p class="text-center">You haven’t placed any orders yet.</p>
+{% endfor %}
+{% if orders %}<small class="text-muted">*Sale savings compare the purchase price with the current regular price.</small>{% endif %}
 {% endblock %}
 {% block profile_scripts %}{% endblock %}
