@@ -16,12 +16,12 @@
     <link rel="icon" href="{% static 'core/img/core-img/favicon.ico' %}">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=centered-nav">
-    <link rel="stylesheet" href="{% static 'core/css/shop.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=neon-background">
+    <link rel="stylesheet" href="{% static 'core/css/shop.css' %}?v=cover-hover">
 
 </head>
 
-<body class="shop-page">
+<body class="shop-page neon-background">
     <!-- Preloader -->
     <div class="preloader d-flex align-items-center justify-content-center">
         <div class="lds-ellipsis">
@@ -38,75 +38,57 @@
 
     <!-- ##### Breadcumb Area Start ##### -->
     <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'core/img/bg-img/breadcumb3.jpg' %});">
-        <div class="bradcumbContent">
-            <h2>Shop</h2>
-        </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
 
     <!-- ##### Album Catagory Area Start ##### -->
     <section class="album-catagory section-padding-100-0">
         <div class="container">
-            <form method="get" action="{% url 'shop' %}" class="form-row align-items-end mb-4" role="search">
-                <div class="form-group col-12 col-md">
+            <h1 class="text-center text-white mb-4">Shop</h1>
+            <form method="get" action="{% url 'shop' %}" class="mb-4" role="search">
+                <div class="form-group">
                     <label for="shop-search">Search albums</label>
-                    <input type="search" class="form-control" id="shop-search" name="q"
-                           value="{{ query }}" placeholder="Album, artist, or genre">
+                    <input type="search" class="form-control" id="shop-search" name="q" value="{{ query }}" placeholder="Album, artist, or genre">
                 </div>
-                <div class="form-group col-12 col-sm col-md-4">
-                    <label for="shop-sort">Sort by</label>
-                    <select class="form-control" id="shop-sort" name="sort">
-                        <option value="artist"{% if sort == 'artist' %} selected{% endif %}>Artist (A–Z)</option>
-                        <option value="name"{% if sort == 'name' %} selected{% endif %}>Album name (A–Z)</option>
-                        <option value="genre"{% if sort == 'genre' %} selected{% endif %}>Genre (A–Z)</option>
-                        <option value="price"{% if sort == 'price' %} selected{% endif %}>Price (low to high)</option>
-                        <option value="price-desc"{% if sort == 'price-desc' %} selected{% endif %}>Price (high to low)</option>
-                        <option value="in-stock"{% if sort == 'in-stock' %} selected{% endif %}>Availability</option>
-                        <option value="sale"{% if sort == 'sale' %} selected{% endif %}>On sale only</option>
-                    </select>
-                </div>
-                <div class="form-group col-12 col-sm-auto">
+                <div class="shop-filters">
+                    <details>
+                        <summary>Genre{% if genres %} ({{ genres|length }}){% endif %}</summary>
+                        <div class="shop-filter-options">
+                            {% for genre in genre_options %}
+                            <label><input type="checkbox" name="genre" value="{{ genre }}"{% if genre in genres %} checked{% endif %}> {{ genre }}</label>
+                            {% endfor %}
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Artist{% if artists %} ({{ artists|length }}){% endif %}</summary>
+                        <div class="shop-filter-options">
+                            {% for option in artist_options %}
+                            <label><input type="checkbox" name="artist" value="{{ option.artist }}"{% if option.artist in artists %} checked{% endif %}> {{ option.artist }} ({{ option.count }})</label>
+                            {% endfor %}
+                        </div>
+                    </details>
+                    <label><input type="checkbox" name="availability" value="in-stock"{% if in_stock %} checked{% endif %}> In stock only</label>
+                    <label><input type="checkbox" name="sale" value="yes"{% if sale_only %} checked{% endif %}> On sale</label>
+                    <div class="shop-sort-control">
+                        <label for="shop-sort">Sort by</label>
+                        <select class="form-control" id="shop-sort" name="sort">
+                            <option value="artist"{% if sort == 'artist' %} selected{% endif %}>Artist (A–Z)</option>
+                            <option value="name"{% if sort == 'name' %} selected{% endif %}>Album name (A–Z)</option>
+                            <option value="genre"{% if sort == 'genre' %} selected{% endif %}>Genre (A–Z)</option>
+                            <option value="price"{% if sort == 'price' %} selected{% endif %}>Price (low to high)</option>
+                            <option value="price-desc"{% if sort == 'price-desc' %} selected{% endif %}>Price (high to low)</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-dark shop-apply">Apply</button>
+                    {% if query or genres or artists or in_stock or sale_only or sort != 'artist' %}
+                    <a class="text-white" href="{% url 'shop' %}">Clear</a>
+                    {% endif %}
                 </div>
             </form>
-            <div class="row">
-                <div class="col-12">
-                    <div class="browse-by-catagories catagory-menu d-flex flex-wrap align-items-center mb-70">
-                        <a href="#" data-filter="*" class="active">Browse All</a>
-                        <a href="#" data-filter=".a">A</a>
-                        <a href="#" data-filter=".b">B</a>
-                        <a href="#" data-filter=".c">C</a>
-                        <a href="#" data-filter=".d">D</a>
-                        <a href="#" data-filter=".e">E</a>
-                        <a href="#" data-filter=".f">F</a>
-                        <a href="#" data-filter=".g">G</a>
-                        <a href="#" data-filter=".h">H</a>
-                        <a href="#" data-filter=".i">I</a>
-                        <a href="#" data-filter=".j">J</a>
-                        <a href="#" data-filter=".k">K</a>
-                        <a href="#" data-filter=".l">L</a>
-                        <a href="#" data-filter=".m">M</a>
-                        <a href="#" data-filter=".n">N</a>
-                        <a href="#" data-filter=".o">O</a>
-                        <a href="#" data-filter=".p">P</a>
-                        <a href="#" data-filter=".q">Q</a>
-                        <a href="#" data-filter=".r">R</a>
-                        <a href="#" data-filter=".s">S</a>
-                        <a href="#" data-filter=".t">T</a>
-                        <a href="#" data-filter=".u">U</a>
-                        <a href="#" data-filter=".v">V</a>
-                        <a href="#" data-filter=".w">W</a>
-                        <a href="#" data-filter=".x">X</a>
-                        <a href="#" data-filter=".y">Y</a>
-                        <a href="#" data-filter=".z">Z</a>
-                        <a href="#" data-filter=".number">0-9</a>
-                    </div>
-                </div>
-            </div>
 
             <div class="row oneMusic-albums shop-albums">
                 {% for product in products %}
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 single-album-item {{ product.artist_filter }}">
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3 single-album-item">
                     <div class="single-album">
                         <div class="shop-album-cover bg-light">
                         {% if product.cover %}
@@ -138,7 +120,7 @@
                     </div>
                 </div>
                 {% empty %}
-                <div class="col-12"><p>{% if sort == 'sale' %}No albums on sale match your filters.{% elif query %}No albums match your search.{% else %}No albums are available right now.{% endif %}</p></div>
+                <div class="col-12"><p>{% if query or genres or artists or in_stock or sale_only %}No albums match your filters.{% else %}No albums are available right now.{% endif %}</p></div>
                 {% endfor %}
             </div>
         </div>
@@ -146,7 +128,7 @@
     <!-- ##### Album Catagory Area End ##### -->
 
     <!-- ##### Contact Area Start ##### -->
-    <section class="contact-area section-padding-100 bg-img bg-overlay bg-fixed has-bg-img" style="background-image: url({% static 'core/img/bg-img/bg-2.jpg' %});">
+    <section class="contact-area section-padding-100 has-bg-img">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -211,8 +193,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                         <ul>
                             <li><a href="#">Home</a></li>
                             <li><a href="{% url 'shop' %}">Shop</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">News</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
                     </div>

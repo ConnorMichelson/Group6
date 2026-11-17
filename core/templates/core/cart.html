@@ -9,13 +9,13 @@
     </title>
     <link
       rel="stylesheet"
-      href="{% static 'core/css/style.css' %}?v=centered-nav"
+      href="{% static 'core/css/style.css' %}?v=neon-background"
     />
     <link rel="stylesheet" href="{% static 'core/css/shop.css' %}" />
     <link rel="stylesheet" href="{% static 'core/css/cart.css' %}?v=turntable" />
       <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
   </head>
-  <body class="shop-page">
+  <body class="shop-page neon-background">
     {% include "core/site-header.html" %}
     <div class="breadcumb-area bg-img{% if not order %} cart-turntable-banner{% endif %}"></div>
     <main
