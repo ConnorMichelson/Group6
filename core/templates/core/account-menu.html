@@ -4,6 +4,9 @@
     <div class="account-menu-options">
         <a href="{% url 'profile' %}"{% if request.resolver_match.url_name == 'profile' %} aria-current="page"{% endif %}>Profiles</a>
         <a href="{% url 'order-history' %}"{% if request.resolver_match.url_name == 'order-history' %} aria-current="page"{% endif %}>Order history</a>
+        {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}">Admin dashboard</a>
+        {% endif %}        
         <form method="post" action="{% url 'customer-logout' %}">
             {% csrf_token %}
             <button type="submit">Sign Out</button>
