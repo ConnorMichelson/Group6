@@ -148,6 +148,13 @@ def profile(request):
     first, last = data.get('firstName'), data.get('lastName')
     if not valid_name(first) or not valid_name(last):
         return error('Enter valid first and last names.')
+    email = data.get('email', customer.email)
+    if isinstance(email, str):
+        email = email.strip()
+    if not valid_email(email):
+        return error('Enter a valid email address.')
+    if Customers.objects.filter(email=email).exclude(pk=customer.pk).exists():
+        return error('An account already uses that email address.', 409)
     address = {}
     for key, (field, limit) in ADDRESS_FIELDS.items():
         value = data.get(key)
@@ -161,7 +168,12 @@ def profile(request):
         address[field] = value or None
     if any(address.values()) and not all(address.values()):
         return error('Address line, city, state, and ZIP code cannot be null when an address is provided.')
-    Customers.objects.filter(pk=customer.pk).update(
-        first_name=first, last_name=last, updated_at=timezone.now(), **address
-    )
+    try:
+        Customers.objects.filter(pk=customer.pk).update(
+            first_name=first, last_name=last, email=email, updated_at=timezone.now(), **address
+        )
+    except IntegrityError as exc:
+        if exc.args[0] != 1062:
+            raise
+        return error('An account already uses that email address.', 409)
     return JsonResponse({'message': 'Profile updated.'})

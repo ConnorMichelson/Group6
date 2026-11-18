@@ -1906,3 +1906,24 @@ body.neon-background {
   object-fit: cover;
   border-radius: 0;
 }
+
+.home-sale-albums {
+  min-height: 30rem;
+}
+
+.home-feature-card .home-sale-albums .thumbnail img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.home-sale-albums .home-sale-savings {
+  color: #f000ff;
+  font-weight: 700;
+}
+
+.home-sale-albums .home-original-price {
+  color: #a6a6ae;
+}

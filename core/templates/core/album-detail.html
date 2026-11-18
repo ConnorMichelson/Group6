@@ -16,7 +16,10 @@
         <div class="row mt-4 align-items-start">
             <div class="col-12 col-md-5 mb-4">
                 {% if product.cover %}
-                <img class="album-detail-cover" src="{% static product.cover %}" alt="{{ product.name }} album cover">
+                <div class="album-detail-artwork">
+                    <img class="album-detail-cover" src="{% static product.cover %}" alt="{{ product.name }} album cover">
+                    {% if product.on_sale %}<span class="shop-sale-badge">SALE</span>{% endif %}
+                </div>
                 {% else %}
                 <p class="text-white">Cover unavailable</p>
                 {% endif %}

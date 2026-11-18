@@ -3,6 +3,10 @@
     padding-bottom: 4rem;
 }
 
+.album-detail-artwork {
+    position: relative;
+}
+
 .album-detail-cover {
     display: block;
     width: 100%;

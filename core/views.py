@@ -25,19 +25,26 @@ def album_detail(request, product_id):
 
 def home_view(request):
     albums = []
+    sale_albums = []
     now = timezone.now()
     for product in Products.objects.filter(status='active').order_by('product_id'):
         product.cover = catalog_cover(product)
-        if product.cover:
-            product.on_sale = on_sale(product, now)
+        product.on_sale = on_sale(product, now)
+        if product.on_sale and product.sale_price < product.price:
+            product.sale_savings = product.price - product.sale_price
+            sale_albums.append(product)
+        if product.cover and len(albums) < 26:
             albums.append(product)
-        if len(albums) == 26:
-            break
+    # Largest dollar savings first; keep ties stable by artist, title, and ID.
+    sale_albums.sort(key=lambda product: (
+        -product.sale_savings, product.artist.casefold(), product.name.casefold(), product.pk,
+    ))
     hero_images = ('core/img/bg-img/bg-1.jpg', 'core/img/bg-img/bg-2.jpg')
     return render(request, 'core/index.html', {
         'home_albums': albums[:8],
         'buy_now_albums': albums[8:20],
         'hot_albums': albums[20:26],
+        'sale_albums': sale_albums[:6],
         'hero_images': hero_images,
     })
 

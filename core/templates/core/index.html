@@ -17,7 +17,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap">
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=neon-feature-cards">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=best-sales">
 
 </head>
 
@@ -149,73 +149,28 @@
                     </div>
                 </div>
 
-                <!-- ***** Popular Artists ***** -->
+                <!-- ***** Best Sales ***** -->
                 <div class="col-12 col-lg-6 d-flex">
                     <div class="popular-artists-area home-feature-card home-feature-card-artists mb-100">
                         <div class="section-heading text-left mb-50 wow fadeInUp" data-wow-delay="50ms">
-                            <h2>Popular Artist</h2>
+                            <h2>Best Sales</h2>
                         </div>
-
-                        <!-- Single Artist -->
-                        <div class="single-artists d-flex align-items-center wow fadeInUp" data-wow-delay="100ms">
-                            <div class="thumbnail">
-                                <img src="{% static 'core/img/bg-img/pa1.jpg' %}" alt="">
+                        <div class="home-sale-albums">
+                            {% for album in sale_albums %}
+                            <div class="single-artists d-flex align-items-center">
+                                <div class="thumbnail">
+                                    {% if album.cover %}
+                                    <a href="{% url 'album-detail' album.pk %}"><img src="{% static album.cover %}" alt="{{ album.name }} album cover"></a>
+                                    {% endif %}
+                                </div>
+                                <div class="content-">
+                                    <h6 class="mb-0"><a href="{% url 'album-detail' album.pk %}">{{ album.name }}</a></h6>
+                                    <p>{{ album.artist }}</p>
+                                    <p><del class="home-original-price">${{ album.price|floatformat:"2u" }}</del> <strong>${{ album.sale_price|floatformat:"2u" }}</strong> <span class="home-sale-savings">Save ${{ album.sale_savings|floatformat:"2u" }}</span></p>
+                                </div>
                             </div>
-                            <div class="content-">
-                                <p>Sam Smith</p>
-                            </div>
+                            {% endfor %}
                         </div>
-
-                        <!-- Single Artist -->
-                        <div class="single-artists d-flex align-items-center wow fadeInUp" data-wow-delay="150ms">
-                            <div class="thumbnail">
-                                <img src="{% static 'core/img/bg-img/pa2.jpg' %}" alt="">
-                            </div>
-                            <div class="content-">
-                                <p>William Parker</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Artist -->
-                        <div class="single-artists d-flex align-items-center wow fadeInUp" data-wow-delay="200ms">
-                            <div class="thumbnail">
-                                <img src="{% static 'core/img/bg-img/pa3.jpg' %}" alt="">
-                            </div>
-                            <div class="content-">
-                                <p>Jessica Walsh</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Artist -->
-                        <div class="single-artists d-flex align-items-center wow fadeInUp" data-wow-delay="250ms">
-                            <div class="thumbnail">
-                                <img src="{% static 'core/img/bg-img/pa4.jpg' %}" alt="">
-                            </div>
-                            <div class="content-">
-                                <p>Tha Stoves</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Artist -->
-                        <div class="single-artists d-flex align-items-center wow fadeInUp" data-wow-delay="300ms">
-                            <div class="thumbnail">
-                                <img src="{% static 'core/img/bg-img/pa5.jpg' %}" alt="">
-                            </div>
-                            <div class="content-">
-                                <p>DJ Ajay</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Artist -->
-                        <div class="single-artists d-flex align-items-center wow fadeInUp" data-wow-delay="350ms">
-                            <div class="thumbnail">
-                                <img src="{% static 'core/img/bg-img/pa6.jpg' %}" alt="">
-                            </div>
-                            <div class="content-">
-                                <p>Radio Vibez</p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

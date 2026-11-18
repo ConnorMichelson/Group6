@@ -13,6 +13,19 @@ const profileFields = {
   ...addressFields,
 };
 
+function validateEmail() {
+  const input = profileFields.email;
+  const value = input.value.trim();
+  const valid = value.length <= 255 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && !input.validity.typeMismatch;
+  document.getElementById("profile-email-error").textContent = valid
+    ? ""
+    : "Enter a valid email address.";
+  input.setAttribute("aria-invalid", String(!valid));
+  return valid;
+}
+
+profileFields.email.addEventListener("blur", validateEmail);
+
 function validateAddress() {
   const inputs = Object.values(addressFields);
   const hasAddress = inputs.some((input) => input.value.trim());
@@ -86,6 +99,11 @@ async function loadProfile() {
 
 profileForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (!validateEmail()) {
+    profileFields.email.focus();
+    return;
+  }
+  profileFields.email.value = profileFields.email.value.trim();
   const invalidAddressField = validateAddress();
   if (invalidAddressField) {
     invalidAddressField.focus();
