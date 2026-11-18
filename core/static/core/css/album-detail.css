@@ -1,0 +1,16 @@
+.album-detail {
+    padding-top: 150px;
+    padding-bottom: 4rem;
+}
+
+.album-detail-cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.album-detail .shop-cart-preview {
+    text-align: left;
+    margin-top: 0.75rem;
+}

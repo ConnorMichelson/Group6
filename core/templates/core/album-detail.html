@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ product.name }} | Neon FM</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=neon-background">
+    <link rel="stylesheet" href="{% static 'core/css/shop.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/album-detail.css' %}">
+</head>
+<body class="shop-page neon-background">
+    {% include "core/site-header.html" %}
+    <main class="container album-detail">
+        <a class="text-white" href="{% url 'shop' %}">Back to Shop</a>
+        <div class="row mt-4 align-items-start">
+            <div class="col-12 col-md-5 mb-4">
+                {% if product.cover %}
+                <img class="album-detail-cover" src="{% static product.cover %}" alt="{{ product.name }} album cover">
+                {% else %}
+                <p class="text-white">Cover unavailable</p>
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-7 text-white album-catagory">
+                <h1 class="text-white">{{ product.name }}</h1>
+                <p>{{ product.artist }}</p>
+                <p>{% if product.genre %}{{ product.genre }} · {% endif %}{{ product.format }}</p>
+                <div class="album-description">
+                    {% if product.description %}
+                    {{ product.description|linebreaks }}
+                    {% else %}
+                    <p>A description hasn’t been added for this album yet.</p>
+                    {% endif %}
+                </div>
+                <p>
+                    {% if product.on_sale %}
+                    <del class="shop-original-price">${{ product.price|floatformat:"2u" }}</del>
+                    <strong>${{ product.sale_price|floatformat:"2u" }}</strong> · Sale
+                    {% else %}${{ product.price|floatformat:"2u" }}{% endif %}
+                </p>
+                <p>{% if product.quantity %}{{ product.quantity }} in stock{% else %}Sold out{% endif %}</p>
+                <form class="shop-cart-form" method="post" action="{% url 'cart-add' product.pk %}">
+                    {% csrf_token %}
+                    <button class="btn shop-add" type="submit"{% if product.cart_quantity >= product.quantity %} disabled{% endif %}>Add to cart<span class="shop-add-plus" aria-hidden="true"{% if not product.cart_quantity %} hidden{% endif %}>+</span></button>
+                    <div class="shop-cart-preview" role="status">{% if product.cart_quantity %}{{ product.cart_quantity }} in cart{% endif %}</div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'core/js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'core/js/plugins/plugins.js' %}"></script>
+    <script src="{% static 'core/js/active.js' %}"></script>
+    <script src="{% static 'core/js/shop.js' %}?v=2"></script>
+</body>
+</html>

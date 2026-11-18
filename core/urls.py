@@ -5,6 +5,7 @@ from . import cart, customer_accounts, views
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('shop/', views.shop_view, name='shop'),
+    path('shop/album/<int:product_id>/', views.album_detail, name='album-detail'),
     path('store/', RedirectView.as_view(pattern_name='shop'), name='store'),
     path('contact/', views.contact_view, name='contact'),
     path('elements/', views.elements_view, name='elements'),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('cart/discount/', cart.apply_discount, name='cart-discount'),
     path('cart/add/<int:product_id>/', cart.add, name='cart-add'),
     path('cart/remove/<int:product_id>/', cart.remove, name='cart-remove'),
+    path('cart/quantity/<int:product_id>/', cart.change_quantity, name='cart-quantity'),
     path('cart/checkout/', cart.checkout, name='cart-checkout'),
     path('orders/<int:order_id>/success/', cart.order_success, name='order-success'),
     path('api/register', customer_accounts.register, name='customer-register'),

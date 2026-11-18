@@ -17,7 +17,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=neon-background">
-    <link rel="stylesheet" href="{% static 'core/css/shop.css' %}?v=cover-hover">
+    <link rel="stylesheet" href="{% static 'core/css/shop.css' %}?v=search-sort-row">
 
 </head>
 
@@ -46,9 +46,24 @@
         <div class="container">
             <h1 class="text-center text-white mb-4">Shop</h1>
             <form method="get" action="{% url 'shop' %}" class="mb-4" role="search">
-                <div class="form-group">
+                <div class="shop-search-row">
+                <div class="form-group shop-search-field">
                     <label for="shop-search">Search albums</label>
-                    <input type="search" class="form-control" id="shop-search" name="q" value="{{ query }}" placeholder="Album, artist, or genre">
+                    <input type="search" class="form-control" id="shop-search" name="q" value="{{ query }}" placeholder="Album, artist, genre, or description">
+                </div>
+                    <div class="shop-sort-control">
+                        <label for="shop-sort">Sort by</label>
+                        <select class="form-control" id="shop-sort" name="sort">
+                            <option value="artist"{% if sort == 'artist' %} selected{% endif %}>Artist (A–Z)</option>
+                            <option value="name"{% if sort == 'name' %} selected{% endif %}>Album name (A–Z)</option>
+                            <option value="genre"{% if sort == 'genre' %} selected{% endif %}>Genre (A–Z)</option>
+                            <option value="price"{% if sort == 'price' %} selected{% endif %}>Price (low to high)</option>
+                            <option value="price-desc"{% if sort == 'price-desc' %} selected{% endif %}>Price (high to low)</option>
+                            <option value="stock-asc"{% if sort == 'stock-asc' %} selected{% endif %}>Availability (low to high)</option>
+                            <option value="stock-desc"{% if sort == 'stock-desc' %} selected{% endif %}>Availability (high to low)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-dark shop-apply">Apply</button>
                 </div>
                 <div class="shop-filters">
                     <details>
@@ -69,17 +84,7 @@
                     </details>
                     <label><input type="checkbox" name="availability" value="in-stock"{% if in_stock %} checked{% endif %}> In stock only</label>
                     <label><input type="checkbox" name="sale" value="yes"{% if sale_only %} checked{% endif %}> On sale</label>
-                    <div class="shop-sort-control">
-                        <label for="shop-sort">Sort by</label>
-                        <select class="form-control" id="shop-sort" name="sort">
-                            <option value="artist"{% if sort == 'artist' %} selected{% endif %}>Artist (A–Z)</option>
-                            <option value="name"{% if sort == 'name' %} selected{% endif %}>Album name (A–Z)</option>
-                            <option value="genre"{% if sort == 'genre' %} selected{% endif %}>Genre (A–Z)</option>
-                            <option value="price"{% if sort == 'price' %} selected{% endif %}>Price (low to high)</option>
-                            <option value="price-desc"{% if sort == 'price-desc' %} selected{% endif %}>Price (high to low)</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-dark shop-apply">Apply</button>
+
                     {% if query or genres or artists or in_stock or sale_only or sort != 'artist' %}
                     <a class="text-white" href="{% url 'shop' %}">Clear</a>
                     {% endif %}
@@ -90,21 +95,22 @@
                 {% for product in products %}
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3 single-album-item">
                     <div class="single-album">
-                        <div class="shop-album-cover bg-light">
+                        <a class="shop-album-cover bg-light" href="{% url 'album-detail' product.pk %}" aria-label="View {{ product.name }} by {{ product.artist }}">
+                        {% if product.on_sale %}<span class="shop-sale-badge">SALE</span>{% endif %}
                         {% if product.cover %}
                         <img src="{% static product.cover %}" alt="">
                         {% else %}
                             <i class="fa fa-music fa-3x" aria-hidden="true"></i>
                         {% endif %}
-                        </div>
+                        </a>
                         <div class="album-info">
-                            <h5 title="{{ product.name }}">{{ product.name }}</h5>
+                            <h5 title="{{ product.name }}"><a class="text-white" href="{% url 'album-detail' product.pk %}">{{ product.name }}</a></h5>
                             <p title="{{ product.artist }}">{{ product.artist }}</p>
                             <p>{% if product.genre %}{{ product.genre }} · {% endif %}{{ product.format }}</p>
                             <p>
                                 {% if product.on_sale %}
-                                <del>${{ product.price|floatformat:"2u" }}</del>
-                                <strong>${{ product.sale_price|floatformat:"2u" }}</strong> · Sale
+                                <del class="shop-original-price">${{ product.price|floatformat:"2u" }}</del>
+                                <strong class="shop-sale-price">${{ product.sale_price|floatformat:"2u" }}</strong>
                                 {% else %}
                                 ${{ product.price|floatformat:"2u" }}
                                 {% endif %}
@@ -146,22 +152,26 @@
                         <form action="#" method="post">
                             <div class="row">
                                 <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
+                                    <div class="shop-search-row">
+                <div class="form-group shop-search-field">
                                         <input type="text" class="form-control" id="name" placeholder="Name">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-4">
-                                    <div class="form-group">
+                                    <div class="shop-search-row">
+                <div class="form-group shop-search-field">
                                         <input type="email" class="form-control" id="email" placeholder="E-mail">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="form-group">
+                                    <div class="shop-search-row">
+                <div class="form-group shop-search-field">
                                         <input type="text" class="form-control" id="subject" placeholder="Subject">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-group">
+                                    <div class="shop-search-row">
+                <div class="form-group shop-search-field">
                                         <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
                                     </div>
                                 </div>

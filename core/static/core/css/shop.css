@@ -1,9 +1,30 @@
 .shop-album-cover {
+    position: relative;
     aspect-ratio: 1;
     display: grid;
     place-items: center;
     overflow: hidden;
     transition: transform 180ms ease-out;
+}
+
+.shop-sale-badge {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    z-index: 1;
+    width: 68px;
+    height: 68px;
+    background: url("../img/core-img/sale-badge.png") center / contain no-repeat;
+    font-size: 0;
+    clip-path: polygon(49% 3%, 58% 16%, 72% 9%, 74% 25%, 90% 26%, 83% 41%, 96% 49%, 83% 59%, 90% 73%, 74% 74%, 73% 90%, 59% 83%, 49% 96%, 40% 83%, 26% 90%, 25% 74%, 9% 73%, 16% 59%, 3% 50%, 16% 41%, 9% 27%, 25% 25%, 26% 9%, 40% 16%);
+}
+
+.shop-original-price {
+    color: #a6a6ae;
+}
+
+.shop-sale-price {
+    color: #fff;
 }
 
 .shop-album-cover img {
@@ -105,21 +126,35 @@
     color: #ff1493;
 }
 
-.shop-page :is(.shop-add, .shop-apply) {
+.cart-card .shop-apply {
     background-color: #f7ff00;
     border-color: #f7ff00;
     color: #000;
     font-weight: 700;
 }
 
-.shop-page :is(.shop-add, .shop-apply):not(:disabled):is(:hover, :focus, :active) {
-    background-color: #e0e800;
-    border-color: #e0e800;
-    color: #000;
+.shop-page .album-catagory :is(.shop-add, .shop-apply) {
+    background-color: #23272b;
+    border-color: #23272b;
+    color: #fff;
+    font-weight: 700;
+}
+
+.shop-page .album-catagory :is(.shop-add, .shop-apply):not(:disabled):is(:hover, :focus, :active) {
+    background-color: #23272b;
+    border-color: #23272b;
+    color: #fff;
 }
 
 .shop-add-plus {
     margin-left: 0.5rem;
+}
+
+.shop-page .album-catagory .shop-add,
+.shop-page .album-catagory .shop-add:not(:disabled):is(:hover, :focus, :active) {
+    background-color: #f7ff00;
+    border-color: #f7ff00;
+    color: #000;
 }
 
 .shop-filters {
@@ -173,4 +208,47 @@
 
 .shop-sort-control label {
     white-space: nowrap;
+}
+.shop-search-row {
+    display: flex;
+    align-items: end;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.shop-search-row .shop-search-field {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.shop-search-row .shop-sort-control {
+    display: block;
+    margin: 0;
+}
+
+.shop-search-row .shop-sort-control select {
+    width: 15rem;
+}
+
+.shop-search-row .shop-apply {
+    height: 38px;
+}
+
+@media (max-width: 575px) {
+    .shop-search-row {
+        flex-wrap: wrap;
+    }
+
+    .shop-search-row .shop-search-field {
+        flex-basis: 100%;
+    }
+
+    .shop-search-row .shop-sort-control {
+        flex: 1;
+    }
+
+    .shop-search-row .shop-sort-control select {
+        width: 100%;
+    }
 }
